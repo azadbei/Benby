@@ -245,14 +245,14 @@
         
         <!-- 1-IXCHAM KARTOCHKA -->
         <div class="card">
-            <audio class="track-audio" src="https://www.soundhelix.com/architecture/mp3-player/media/1/SoundHelix-Song-1.mp3"></audio>
+            <audio class="track-audio" src="./2_5469750055294514528.ogg"></audio>
             
             <div class="player-top">
                 <button class="play-btn" onclick="togglePlay(this)">
                     <svg viewBox="0 0 24 24"><path d="M8 5V19L19 12L8 5Z"/></svg>
                 </button>
                 <div class="track-info">
-                    <div class="track-title">Toxic</div>
+                    <div class="track-title">Jony - Kometa (Tizer)</div>
                     <div class="track-artist">BENBY <span class="badge-mini">30 sec</span></div>
                 </div>
             </div>
@@ -280,7 +280,7 @@
                     <svg viewBox="0 0 24 24"><path d="M8 5V19L19 12L8 5Z"/></svg>
                 </button>
                 <div class="track-info">
-                    <div class="track-title">ЧАСЫ</div>
+                    <div class="track-title">6-ФОГЕЛЬ-ЧАСЫ-S1V907</div>
                     <div class="track-artist">BENBY <span class="badge-mini">30 sec</span></div>
                 </div>
             </div>
@@ -312,7 +312,7 @@
             return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
         }
 
-        const audios = document.querySelectorAll('2_5469750055294514528.ogg');
+        const audios = document.querySelectorAll('.track-audio');
         
         audios.forEach(audio => {
             const card = audio.closest('.card');
