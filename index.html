@@ -1,379 +1,1990 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BENBY | Eksklyuziv Musiqalar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>BENBY - Telegram Pro Player</title>
+
     <style>
-        /* ASOSIY SOZLAMALAR VA RANGLAR */
-        :root {
-            --bg-color: #0b111a;
-            --card-bg: #151e29;
-            --primary: #00f2fe;
-            --primary-dark: #4facfe;
-            --text-main: #ffffff;
-            --text-muted: #8b9eb0;
-        }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        background-color: #0e1621;
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+      }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+      .app-container {
+        width: 100%;
+        max-width: 450px;
+        background-color: #0e1621;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+      svg {
+        display: block;
+      }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding: 20px;
-            background-image: radial-gradient(circle at top right, rgba(79, 172, 254, 0.05), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(0, 242, 254, 0.05), transparent 40%);
+      /* ZAGRUZKA ANIMATSIYASI */
+      .spinner {
+        width: 24px;
+        height: 24px;
+        border: 2.5px solid rgba(255, 255, 255, 0.3);
+        border-top: 2.5px solid #ffffff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
         }
+      }
 
-        /* HEADER QISMI */
-        header {
-            text-align: center;
-            margin-bottom: 35px;
-            margin-top: 15px;
-        }
-        
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-dark), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo svg {
-            width: 28px;
-            height: 28px;
-            fill: url(#gradient);
-        }
+      /* HEADER */
+      .tg-header {
+        background-color: #0e1621;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        z-index: 20;
+        position: relative;
+      }
+      .top-bar {
+        display: flex;
+        align-items: center;
+        height: 60px;
+        padding: 6px 8px;
+        gap: 7px;
+        background-color: #0e1621;
+      }
+      .back-pill-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: #212f3d;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.15s;
+        flex-shrink: 0;
+        text-decoration: none;
+      }
+      .back-pill-btn:active {
+        background-color: #2a3b4c;
+        transform: scale(0.95);
+      }
+      .back-pill-btn svg {
+        width: 22px;
+        height: 22px;
+        fill: #e8eff6;
+      }
 
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 400;
-        }
+      .middle-capsule {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        height: 44px;
+        padding: 0 12px 0 5px;
+        border-radius: 22px;
+        background-color: #212f3d;
+        border: none;
+        overflow: hidden;
+        text-decoration: none;
+        min-width: 0;
+      }
+      .avatar-main {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #0e1621;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9.5px;
+        font-weight: 700;
+        margin-right: 10px;
+        color: #fff;
+        flex-shrink: 0;
+      }
 
-        /* IXCHAM MUSIQALAR GRIDI */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Eniga uzunroq */
-            gap: 16px;
-            max-width: 900px;
-            margin: 0 auto;
-            padding-bottom: 40px;
-        }
+      .info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        line-height: 1.15;
+        min-width: 0;
+      }
+      .title {
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        color: #f4f7fa;
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .title span {
+        font-size: 14px;
+        margin-left: 4px;
+      }
+      .status {
+        font-size: 12.5px;
+        color: #8ea1b4;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-        /* IXCHAM KARTOCHKA DIZAYNI */
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 16px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.04);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+      .right-capsule {
+        display: flex;
+        align-items: center;
+        height: 44px;
+        padding: 0 4px;
+        border-radius: 22px;
+        background-color: #212f3d;
+        border: none;
+        flex-shrink: 0;
+      }
+      .capsule-icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.15s;
+        flex-shrink: 0;
+        text-decoration: none;
+        background: none;
+        border: none;
+      }
+      .capsule-icon-btn:active {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: scale(0.92);
+      }
+      .capsule-icon-btn svg {
+        width: 21px;
+        height: 21px;
+        fill: #e8eff6;
+      }
 
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-            border-color: rgba(0, 242, 254, 0.15);
-        }
+      /* QIDIRUV PANELI */
+      .search-bar {
+        display: none;
+        align-items: center;
+        height: 60px;
+        padding: 6px 8px;
+        gap: 6px;
+        background-color: #0e1621;
+      }
+      .search-bar.active {
+        display: flex;
+      }
+      .search-input-wrap {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        background-color: #212f3d;
+        border: none;
+        border-radius: 22px;
+        height: 42px;
+        padding: 0 12px;
+        gap: 8px;
+      }
+      .search-input {
+        flex-grow: 1;
+        background: none;
+        border: none;
+        outline: none;
+        color: #ffffff;
+        font-size: 14.5px;
+      }
+      .search-input::placeholder {
+        color: #8ea1b4;
+      }
+      .search-clear-btn {
+        background: none;
+        border: none;
+        color: #8ea1b4;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 2px 6px;
+        display: none;
+      }
+      .search-clear-btn.visible {
+        display: block;
+      }
 
-        /* TEPASI: PLAY TUGMA VA NOMI */
-        .player-top {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+      /* HEADER 3 NUQTA DROPDOWN MENYU (DOIM TINIQ) */
+      .header-menu {
+        position: absolute;
+        top: 56px;
+        right: 10px;
+        background-color: #1f2c3a;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+        padding: 5px;
+        min-width: 215px;
+        z-index: 60;
+        display: none;
+        flex-direction: column;
+        filter: none !important;
+        backdrop-filter: none !important;
+      }
+      .header-menu.open {
+        display: flex;
+      }
+      .header-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 13.5px;
+        font-weight: 500;
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        transition: background-color 0.15s, color 0.15s;
+      }
+      .header-menu-item:hover {
+        background-color: rgba(100, 181, 239, 0.14);
+        color: #64b5ef;
+      }
+      .header-menu-item svg {
+        width: 17px;
+        height: 17px;
+        fill: currentColor;
+        flex-shrink: 0;
+      }
 
-        .play-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary-dark), var(--primary));
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 12px rgba(0, 242, 254, 0.25);
-        }
+      /* QADALGAN XABAR VA BAHOLASH */
+      .pinned {
+        display: flex;
+        align-items: center;
+        padding: 7px 10px 7px 15px;
+        border-top: 1px solid #16212e;
+        background-color: #0e1621;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition:
+          opacity 0.55s ease,
+          transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+          max-height 0.55s ease,
+          padding 0.55s ease;
+        max-height: 70px;
+        opacity: 1;
+      }
+      .pinned.dismissed {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-top-width: 0;
+        pointer-events: none;
+      }
+      .pinned-line {
+        width: 2.5px;
+        height: 34px;
+        background-color: #64b5ef;
+        border-radius: 2px;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+      .pinned-content {
+        flex-grow: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .pinned-title {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #64b5ef;
+        margin-bottom: 2px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .pinned-text {
+        font-size: 13.5px;
+        color: #d6e2ee;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-        .play-btn:active { transform: scale(0.9); }
-        .play-btn svg { width: 20px; height: 20px; fill: #fff; margin-left: 2px; transition: all 0.2s; }
-        .play-btn.playing svg { margin-left: 0; }
+      /* 5 YULDUZLI BAHOLASH PANELI */
+      .rating-stars {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 2px;
+      }
+      .star-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.15s ease;
+      }
+      .star-btn:hover {
+        transform: scale(1.22);
+      }
+      .star-btn:active {
+        transform: scale(0.92);
+      }
+      .star-btn svg {
+        width: 21px;
+        height: 21px;
+        fill: #243546;
+        stroke: #64b5ef;
+        stroke-width: 1.4;
+        transition: fill 0.2s, stroke 0.2s;
+      }
+      .star-btn.active svg,
+      .star-btn.hovered svg {
+        fill: #64b5ef;
+        stroke: #64b5ef;
+      }
 
-        .track-info {
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            flex-grow: 1;
-        }
+      .close-btn {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: none;
+        border: none;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background-color 0.2s, transform 0.25s;
+      }
+      .close-btn:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+      }
+      .close-btn:active {
+        transform: rotate(90deg) scale(0.9);
+      }
+      .close-btn svg {
+        width: 13px;
+        height: 13px;
+        fill: #7f91a4;
+      }
 
-        .track-title {
-            font-size: 15px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 2px;
+      /* TINNIQ 5 SONIYALIK BURCHAKLI PARCHALANISH ZARRALARI */
+      .shatter-piece {
+        position: fixed;
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.96;
+        will-change: transform, opacity;
+        animation: shatterCrisp5s var(--dur, 5s) cubic-bezier(0.12, 0.68, 0.22, 1) var(--delay, 0s) forwards;
+      }
+      @keyframes shatterCrisp5s {
+        0% {
+          opacity: 0.96;
+          transform: translate(0, 0) rotate(0deg) scale(1);
         }
+        20% {
+          opacity: 0.9;
+        }
+        65% {
+          opacity: 0.45;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.18);
+        }
+      }
 
-        .track-artist {
-            font-size: 12px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+      /* CHAT QISMI */
+      .chat-area {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 10px 10px 20px 10px;
+        display: flex;
+        flex-direction: column;
+        background-color: #0e1621;
+        position: relative;
+        transition: filter 0.22s ease;
+      }
+      .chat-area::-webkit-scrollbar {
+        display: none;
+      }
 
-        .badge-mini {
-            background: rgba(0, 242, 254, 0.1);
-            color: var(--primary);
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
+      /* POSTLAR ORQASIDA 3-4% YENGIL BLUR EFFEKT */
+      .app-container.menu-open-blur .chat-area {
+        filter: blur(1.8px);
+      }
 
-        /* O'RTASI: PROGRESS BAR */
-        .progress-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            padding: 0 4px;
-        }
+      .date-badge {
+        align-self: center;
+        background-color: #17212b;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 4px 12px;
+        border-radius: 12px;
+        margin: 12px 0 8px 0;
+      }
 
-        .progress-bar {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 4px;
-            background: #233140;
-            border-radius: 2px;
-            outline: none;
-            cursor: pointer;
-        }
+      .empty-search-state {
+        text-align: center;
+        color: #7f91a4;
+        font-size: 14px;
+        padding: 40px 16px;
+      }
 
-        .progress-bar::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-            box-shadow: 0 0 6px var(--primary);
-            transition: 0.2s;
-        }
-        
-        .progress-bar::-webkit-slider-thumb:hover { transform: scale(1.3); }
+      .msg-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        position: relative;
+        margin-bottom: 8px;
+      }
 
-        .time-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-            font-variant-numeric: tabular-nums;
-        }
+      .bubble {
+        background-color: #182533;
+        border-radius: 14px;
+        border-bottom-left-radius: 4px;
+        padding: 8px 12px 8px 12px;
+        width: 85%;
+        max-width: 330px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        transition: background-color 0.2s;
+        position: relative;
+      }
 
-        /* PASTKI: TELEGRAM TUGMASI */
-        .tg-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 10px;
-            background-color: rgba(79, 172, 254, 0.08);
-            color: var(--primary);
-            text-decoration: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
-            border: 1px solid transparent;
-        }
+      /* O'NG YONDAGI VERTIKAL YIG'ISH + 0s + TO'XTATISH USTUNI */
+      .side-actions-col {
+        align-self: flex-start;
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+      }
 
-        .tg-link:hover {
-            background-color: rgba(79, 172, 254, 0.15);
-            border-color: rgba(0, 242, 254, 0.3);
-        }
+      .toggle-panel-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1px solid rgba(127, 145, 164, 0.25);
+        background-color: rgba(23, 33, 43, 0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+      }
+      .toggle-panel-btn:hover {
+        background-color: rgba(100, 181, 239, 0.16);
+        border-color: rgba(100, 181, 239, 0.55);
+      }
+      .toggle-panel-btn:active {
+        transform: scale(0.9);
+      }
+      .toggle-panel-btn.is-open {
+        background-color: rgba(100, 181, 239, 0.14);
+        border-color: rgba(100, 181, 239, 0.45);
+      }
+      .toggle-panel-btn svg {
+        width: 17px;
+        height: 17px;
+        stroke: #9ab0c4;
+        fill: none;
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: stroke 0.2s, transform 0.2s;
+      }
+      .toggle-panel-btn:hover svg,
+      .toggle-panel-btn.is-open svg {
+        stroke: #64b5ef;
+      }
 
-        .tg-link svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--primary);
-        }
+      .side-sub-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1px solid rgba(127, 145, 164, 0.2);
+        background-color: rgba(23, 33, 43, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: transform 0.18s, background-color 0.18s, border-color 0.18s;
+      }
+      .side-sub-btn:hover {
+        background-color: rgba(100, 181, 239, 0.16);
+        border-color: rgba(100, 181, 239, 0.5);
+      }
+      .side-sub-btn:active {
+        transform: scale(0.9);
+      }
+      .side-sub-btn svg {
+        width: 15px;
+        height: 15px;
+        stroke: #9ab0c4;
+        fill: #9ab0c4;
+        transition: stroke 0.18s, fill 0.18s;
+      }
+      .side-sub-btn:hover svg {
+        stroke: #64b5ef;
+        fill: #64b5ef;
+      }
+
+      .audio-box {
+        display: flex;
+        align-items: center;
+        margin-bottom: 4px;
+        cursor: pointer;
+        position: relative;
+      }
+      .play-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: #64b5ef;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 12px;
+        flex-shrink: 0;
+        color: #fff;
+      }
+      .play-circle.playing {
+        background-color: #1db954;
+      }
+      .play-circle svg {
+        width: 22px;
+        height: 22px;
+        fill: #ffffff;
+        margin-left: 3px;
+      }
+      .play-circle.playing svg {
+        margin-left: 0;
+      }
+
+      .track-info {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+        justify-content: center;
+      }
+      .track-name {
+        font-size: 15.5px;
+        font-weight: 500;
+        color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 2px;
+      }
+      .track-artist {
+        font-size: 13.5px;
+        color: #7f91a4;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .track-size {
+        font-size: 12px;
+        color: #7f91a4;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .blue-dot {
+        color: #64b5ef;
+        font-size: 10px;
+        margin-left: 2px;
+      }
+
+      /* 3 NUQTA VA MENYU (DOIM TINIQ) */
+      .more-btn {
+        background: none;
+        border: none;
+        color: #7f91a4;
+        font-weight: bold;
+        font-size: 18px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        align-self: flex-start;
+        flex-shrink: 0;
+        transition: background-color 0.2s, color 0.2s;
+      }
+      .more-btn:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: #ffffff;
+      }
+
+      .post-menu {
+        position: absolute;
+        top: 34px;
+        right: 8px;
+        background-color: #1f2c3a;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+        padding: 4px;
+        min-width: 170px;
+        z-index: 60;
+        display: none;
+        flex-direction: column;
+        filter: none !important;
+        backdrop-filter: none !important;
+      }
+      .post-menu.open {
+        display: flex;
+      }
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 7px;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 13.5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.15s;
+      }
+      .menu-item:hover {
+        background-color: rgba(100, 181, 239, 0.14);
+        color: #64b5ef;
+      }
+      .menu-item svg {
+        width: 17px;
+        height: 17px;
+        fill: currentColor;
+        flex-shrink: 0;
+      }
+
+      .bubble-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-top: 4px;
+      }
+      .signature {
+        font-size: 13px;
+        font-weight: bold;
+        font-style: italic;
+        color: #64b5ef;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+      }
+      .signature span {
+        font-style: normal;
+        margin-left: 2px;
+        font-size: 12px;
+      }
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: #6b7d8d;
+      }
+      .meta svg {
+        width: 14px;
+        height: 14px;
+        fill: #6b7d8d;
+        margin-right: 2px;
+        margin-bottom: -2px;
+      }
+
+      /* POST TAGIDA DOIM TURADIGAN TELEGRAMDA OCHISH TUGMASI */
+      .post-tg-btn {
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        width: 100%;
+        padding: 8px 10px;
+        background-color: rgba(100, 181, 239, 0.11);
+        color: #64b5ef;
+        text-decoration: none;
+        border-radius: 9px;
+        font-size: 12.5px;
+        font-weight: 600;
+        border: 1px solid rgba(100, 181, 239, 0.22);
+        transition: background-color 0.2s, border-color 0.2s, transform 0.15s;
+      }
+      .post-tg-btn:hover {
+        background-color: rgba(100, 181, 239, 0.2);
+        border-color: rgba(100, 181, 239, 0.45);
+      }
+      .post-tg-btn:active {
+        transform: scale(0.98);
+      }
+      .post-tg-btn svg {
+        width: 15px;
+        height: 15px;
+        fill: #64b5ef;
+        flex-shrink: 0;
+      }
+
+      /* OCHILADIGAN PLEYER */
+      .expanded-player {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.3s ease-in-out,
+          margin-top 0.3s ease,
+          padding-top 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+      }
+      .bubble.expanded .expanded-player {
+        max-height: 150px;
+        margin-top: 8px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        opacity: 1;
+      }
+
+      .progress-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 12px;
+        color: #7f91a4;
+        margin-bottom: 12px;
+        font-variant-numeric: tabular-nums;
+      }
+      .progress-bar {
+        -webkit-appearance: none;
+        flex-grow: 1;
+        height: 4px;
+        background: #2b3a4a;
+        border-radius: 2px;
+        outline: none;
+        cursor: pointer;
+      }
+      .progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #64b5ef;
+        cursor: pointer;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+
+      .controls-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+      }
+      .ctrl-btn {
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        text-decoration: none;
+        position: relative;
+      }
+      .ctrl-btn svg {
+        width: 24px;
+        height: 24px;
+        fill: #ffffff;
+        transition: 0.1s;
+      }
+      .ctrl-btn:active svg {
+        transform: scale(0.9);
+      }
+
+      /* TINIQ 5 SONIYA ORQAGA / OLDINGA TUGMALARI */
+      .seek-icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid rgba(127, 145, 164, 0.25);
+        background-color: rgba(255, 255, 255, 0.03);
+        transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+      }
+      .seek-icon-btn svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: #a8bdd1;
+        stroke-width: 1.9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .seek-icon-btn svg text {
+        fill: #a8bdd1;
+        stroke: none;
+        font-size: 8.5px;
+        font-weight: 700;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      .seek-icon-btn:hover {
+        border-color: rgba(100, 181, 239, 0.55);
+        background-color: rgba(100, 181, 239, 0.12);
+      }
+      .seek-icon-btn:hover svg {
+        stroke: #64b5ef;
+      }
+      .seek-icon-btn:hover svg text {
+        fill: #64b5ef;
+      }
+
+      .play-pause-btn svg {
+        width: 38px;
+        height: 38px;
+        fill: #64b5ef;
+      }
+
+      /* HEADERDAGI KABI KAPSULA FOOTER */
+      .subscriber-bar {
+        background-color: #0e1621;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        padding: 6px 8px;
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+      }
+      .join-channel-capsule {
+        flex-grow: 1;
+        height: 44px;
+        border-radius: 22px;
+        background-color: #212f3d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #f4f7fa;
+        font-size: 14.5px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        text-decoration: none;
+        transition: background-color 0.2s, transform 0.15s;
+      }
+      .join-channel-capsule:hover {
+        background-color: #273747;
+        color: #64b5ef;
+      }
+      .join-channel-capsule:active {
+        transform: scale(0.98);
+      }
+      .join-channel-capsule svg {
+        width: 19px;
+        height: 19px;
+        fill: #64b5ef;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="app-container" id="app-container">
+      <audio id="main-audio" preload="metadata"></audio>
 
-    <!-- SVG Gradient -->
-    <svg style="width:0;height:0;position:absolute;" aria-hidden="true">
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#4facfe" />
-            <stop offset="100%" stop-color="#00f2fe" />
-        </linearGradient>
-    </svg>
-
-    <header>
-        <div class="logo">
-            <svg viewBox="0 0 24 24"><path d="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17C6 19.21 7.79 21 10 21C12.21 21 14 19.21 14 17V7H18V3H12Z"/></svg>
-            BENBY
-        </div>
-        <div class="subtitle">Eksklyuziv Musiqalar Katalogi</div>
-    </header>
-
-    <div class="grid-container">
-        
-        <!-- 1-IXCHAM KARTOCHKA -->
-        <div class="card">
-            <audio class="track-audio" src="./2_5469750055294514528.ogg"></audio>
-            
-            <div class="player-top">
-                <button class="play-btn" onclick="togglePlay(this)">
-                    <svg viewBox="0 0 24 24"><path d="M8 5V19L19 12L8 5Z"/></svg>
-                </button>
-                <div class="track-info">
-                    <div class="track-title">Jony - Kometa (Tizer)</div>
-                    <div class="track-artist">BENBY <span class="badge-mini">30 sec</span></div>
-                </div>
+      <!-- HEADER -->
+      <div class="tg-header">
+        <div class="top-bar" id="top-bar">
+          <a href="https://t.me/BENBY" target="_blank" class="back-pill-btn" title="Telegram kanalga o'tish">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z"
+              />
+            </svg>
+          </a>
+          <a href="https://t.me/BENBY" target="_blank" class="middle-capsule">
+            <div class="avatar-main">BENBY</div>
+            <div class="info">
+              <div class="title">BENBY <span>🎵</span></div>
+              <div id="status-text" class="status">Yuklanmoqda...</div>
             </div>
-
-            <div class="progress-wrapper">
-                <input type="range" class="progress-bar" value="0" min="0" max="100" step="0.1">
-                <div class="time-info">
-                    <span class="current-time">00:00</span>
-                    <span class="total-time">00:30</span>
-                </div>
-            </div>
-
-            <a href="https://t.me/BENBY" target="_blank" class="tg-link">
-                To'liq eshitish
-                <svg viewBox="0 0 24 24"><path d="M9.78 18.65L10.06 14.42L17.74 7.5C18.08 7.19 17.67 7.04 17.22 7.31L7.74 13.28L3.64 12C2.76 11.74 2.75 11.14 3.84 10.73L19.81 4.58C20.54 4.32 21.2 4.72 20.96 5.84L18.24 18.65C18.05 19.56 17.5 19.78 16.74 19.36L12.6 16.3L10.61 18.23C10.38 18.46 10.19 18.65 9.78 18.65Z"/></svg>
-            </a>
-        </div>
-
-        <!-- 2-IXCHAM KARTOCHKA -->
-        <div class="card">
-            <audio class="track-audio" src="https://www.soundhelix.com/architecture/mp3-player/media/1/SoundHelix-Song-2.mp3"></audio>
-            
-            <div class="player-top">
-                <button class="play-btn" onclick="togglePlay(this)">
-                    <svg viewBox="0 0 24 24"><path d="M8 5V19L19 12L8 5Z"/></svg>
-                </button>
-                <div class="track-info">
-                    <div class="track-title">6-ФОГЕЛЬ-ЧАСЫ-S1V907</div>
-                    <div class="track-artist">BENBY <span class="badge-mini">30 sec</span></div>
-                </div>
-            </div>
-
-            <div class="progress-wrapper">
-                <input type="range" class="progress-bar" value="0" min="0" max="100" step="0.1">
-                <div class="time-info">
-                    <span class="current-time">00:00</span>
-                    <span class="total-time">00:30</span>
-                </div>
-            </div>
-
-            <a href="https://t.me/BENBY" target="_blank" class="tg-link">
-                To'liq eshitish
-                <svg viewBox="0 0 24 24"><path d="M9.78 18.65L10.06 14.42L17.74 7.5C18.08 7.19 17.67 7.04 17.22 7.31L7.74 13.28L3.64 12C2.76 11.74 2.75 11.14 3.84 10.73L19.81 4.58C20.54 4.32 21.2 4.72 20.96 5.84L18.24 18.65C18.05 19.56 17.5 19.78 16.74 19.36L12.6 16.3L10.61 18.23C10.38 18.46 10.19 18.65 9.78 18.65Z"/></svg>
-            </a>
+          </a>
+          <div class="right-capsule">
+            <button
+              type="button"
+              class="capsule-icon-btn"
+              id="open-search-btn"
+              title="Qidirish"
+              aria-label="Qidirish"
+              onclick="openSearchBar(event)"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="capsule-icon-btn"
+              id="header-more-btn"
+              title="Qo'shimcha amallar"
+              aria-label="Qo'shimcha amallar"
+              onclick="toggleHeaderMenu(event)"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 8C13.1 8 14 7.1 14 6C14 4.9 13.1 4 12 4C10.9 4 10 4.9 10 6C10 7.1 10.9 8 12 8ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10ZM12 16C10.9 16 10 16.9 10 18C10 19.1 10.9 20 12 20C13.1 20 14 19.1 14 18C14 16.9 13.1 16 12 16Z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
 
+        <!-- QIDIRUV PANELI -->
+        <div class="search-bar" id="search-bar">
+          <button
+            type="button"
+            class="back-pill-btn"
+            title="Qidiruvni yopish"
+            aria-label="Qidiruvni yopish"
+            onclick="closeSearchBar(event)"
+          >
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z"
+              />
+            </svg>
+          </button>
+          <div class="search-input-wrap">
+            <svg style="width:18px;height:18px;fill:#8ea1b4;flex-shrink:0;" viewBox="0 0 24 24">
+              <path
+                d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"
+              />
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              id="music-search-input"
+              placeholder="Musiqa nomini qidiring..."
+              oninput="handleSearchInput(event)"
+            />
+            <button
+              type="button"
+              class="search-clear-btn"
+              id="search-clear-btn"
+              title="Tozalash"
+              onclick="clearSearchInput(event)"
+            >✕</button>
+          </div>
+        </div>
+
+        <!-- 3 NUQTA DROPDOWN MENYU -->
+        <div class="header-menu" id="header-menu" onclick="event.stopPropagation()">
+          <a href="https://t.me/BENBY" target="_blank" class="header-menu-item" onclick="closeHeaderMenu()">
+            <svg viewBox="0 0 24 24"><path d="M9.78 18.65L10.06 14.42L17.74 7.5C18.08 7.19 17.67 7.04 17.22 7.31L7.74 13.28L3.64 12C2.76 11.74 2.75 11.14 3.84 10.73L19.81 4.58C20.54 4.32 21.2 4.72 20.96 5.84L18.24 18.65C18.05 19.56 17.5 19.78 16.74 19.36L12.6 16.3L10.61 18.23C10.38 18.46 10.19 18.65 9.78 18.65Z"/></svg>
+            <span>Telegram kanal (@BENBY)</span>
+          </a>
+          <button type="button" class="header-menu-item" onclick="playRandomTrack(event)">
+            <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+            <span>Tasodifiy musiqa chalish</span>
+          </button>
+          <button type="button" class="header-menu-item" onclick="collapseAllPlayers(event)">
+            <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h12l-6 6z"/></svg>
+            <span>Pleyerlarni yig'ish</span>
+          </button>
+          <button type="button" class="header-menu-item" onclick="copySiteLink(event)">
+            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            <span id="copy-link-label">Havolani nusxalash</span>
+          </button>
+        </div>
+
+        <!-- BAHOLASH QISMI (QADALGAN XABAR) -->
+        <div class="pinned" id="pinned-bar" onclick="openRatingMode(event)">
+          <div class="pinned-line"></div>
+          <div class="pinned-content" id="pinned-content">
+            <div class="pinned-title">Qadalgan xabar</div>
+            <div class="pinned-text">Kanalimiz web sahifasiga baho bering ⭐</div>
+          </div>
+          <button
+            type="button"
+            class="close-btn"
+            id="pinned-close-btn"
+            title="Baholashni yopish"
+            aria-label="Baholashni yopish"
+            onclick="shatterRatingSection(event)"
+          >
+            <svg viewBox="0 0 14 14">
+              <path
+                d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-area" id="chat-area"></div>
+
+      <!-- HEADERDAGI KABI KAPSULA FOOTER -->
+      <div class="subscriber-bar">
+        <a href="https://t.me/BENBY" target="_blank" class="join-channel-capsule">
+          <svg viewBox="0 0 24 24">
+            <path d="M9.78 18.65L10.06 14.42L17.74 7.5C18.08 7.19 17.67 7.04 17.22 7.31L7.74 13.28L3.64 12C2.76 11.74 2.75 11.14 3.84 10.73L19.81 4.58C20.54 4.32 21.2 4.72 20.96 5.84L18.24 18.65C18.05 19.56 17.5 19.78 16.74 19.36L12.6 16.3L10.61 18.23C10.38 18.46 10.19 18.65 9.78 18.65Z"/>
+          </svg>
+          <span>Kanalga qo'shilish</span>
+        </a>
+      </div>
     </div>
 
     <script>
-        const playIcon = '<svg viewBox="0 0 24 24"><path d="M8 5V19L19 12L8 5Z"/></svg>';
-        const pauseIcon = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+      const TELEGRAM_CHANNEL_URL = "https://t.me/BENBY";
 
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return "00:00";
-            const m = Math.floor(seconds / 60);
-            const s = Math.floor(seconds % 60);
-            return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+      const localPlaylist = [
+        {
+          title: "ФОГЕЛЬ - ЧАСЫ",
+          artist: "BENBY",
+          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
+          fileName: "ФОГЕЛЬ-ЧАСЫ.mp3",
+          tgLink: "https://t.me/BENBY/653",
+          time: "09:06",
+          views: 450,
+        },
+        {
+          title: "ЮЛИЯ ГАВРИЛОВА - АЙ ВЫ ЦЫГАНЕ",
+          artist: "BENBY",
+          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
+          fileName: "ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
+          tgLink: "https://t.me/BENBY/659",
+          time: "18:12",
+          views: 406,
+        },
+        {
+          title: "ФОГЕЛЬ - ЧАСЫ",
+          artist: "BENBY",
+          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
+          fileName: "ФОГЕЛЬ-ЧАСЫ.mp3",
+          tgLink: "https://t.me/BENBY/653",
+          time: "20:15",
+          views: 512,
+        },
+        {
+          title: "ЮЛИЯ ГАВРИЛОВА - АЙ ВЫ ЦЫГАНЕ",
+          artist: "BENBY",
+          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
+          fileName: "ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
+          tgLink: "https://t.me/BENBY/659",
+          time: "21:40",
+          views: 389,
+        },
+      ];
+
+      const appContainer = document.getElementById("app-container");
+      const chatArea = document.getElementById("chat-area");
+      const audioPlayer = document.getElementById("main-audio");
+      const statusText = document.getElementById("status-text");
+
+      let playlist = [];
+      let searchQuery = "";
+      let currentIndex = -1;
+      let isSeeking = false;
+      let isAudioLoading = false;
+      let loadTimeout;
+
+      let pinnedState = "prompt";
+      let savedRating = Number(localStorage.getItem("benby_site_rating") || 0);
+      let hasVotedOnce = Boolean(localStorage.getItem("benby_site_voted"));
+
+      const starSvg =
+        '<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+
+      function refreshBackdropBlurState() {
+        const hasOpenPostMenu = Boolean(document.querySelector(".post-menu.open"));
+        const hasOpenHeaderMenu = Boolean(
+          document.getElementById("header-menu")?.classList.contains("open"),
+        );
+        if (appContainer) {
+          appContainer.classList.toggle(
+            "menu-open-blur",
+            hasOpenPostMenu || hasOpenHeaderMenu,
+          );
+        }
+      }
+
+      /* QIDIRUV VA HEADER 3 NUQTA MENYUSI */
+      window.openSearchBar = function (event) {
+        if (event) event.stopPropagation();
+        closeHeaderMenu();
+        document.getElementById("top-bar").style.display = "none";
+        const searchBar = document.getElementById("search-bar");
+        searchBar.classList.add("active");
+        const input = document.getElementById("music-search-input");
+        setTimeout(() => input.focus(), 50);
+      };
+
+      window.closeSearchBar = function (event) {
+        if (event) event.stopPropagation();
+        searchQuery = "";
+        const input = document.getElementById("music-search-input");
+        const clearBtn = document.getElementById("search-clear-btn");
+        if (input) input.value = "";
+        if (clearBtn) clearBtn.classList.remove("visible");
+        document.getElementById("search-bar").classList.remove("active");
+        document.getElementById("top-bar").style.display = "flex";
+        renderPlaylist();
+      };
+
+      window.handleSearchInput = function (event) {
+        searchQuery = (event.target.value || "").trim().toLowerCase();
+        const clearBtn = document.getElementById("search-clear-btn");
+        if (clearBtn) {
+          clearBtn.classList.toggle("visible", searchQuery.length > 0);
+        }
+        renderPlaylist();
+      };
+
+      window.clearSearchInput = function (event) {
+        if (event) event.stopPropagation();
+        searchQuery = "";
+        const input = document.getElementById("music-search-input");
+        const clearBtn = document.getElementById("search-clear-btn");
+        if (input) {
+          input.value = "";
+          input.focus();
+        }
+        if (clearBtn) clearBtn.classList.remove("visible");
+        renderPlaylist();
+      };
+
+      window.toggleHeaderMenu = function (event) {
+        if (event) event.stopPropagation();
+        closeAllMenus();
+        const menu = document.getElementById("header-menu");
+        if (menu) menu.classList.toggle("open");
+        refreshBackdropBlurState();
+      };
+
+      window.closeHeaderMenu = function () {
+        const menu = document.getElementById("header-menu");
+        if (menu) menu.classList.remove("open");
+        refreshBackdropBlurState();
+      };
+
+      window.playRandomTrack = function (event) {
+        if (event) event.stopPropagation();
+        closeHeaderMenu();
+        if (!localPlaylist.length) return;
+        let randomIdx = Math.floor(Math.random() * localPlaylist.length);
+        if (localPlaylist.length > 1 && randomIdx === currentIndex) {
+          randomIdx = (randomIdx + 1) % localPlaylist.length;
+        }
+        startTrack(randomIdx);
+      };
+
+      window.collapseAllPlayers = function (event) {
+        if (event) event.stopPropagation();
+        closeHeaderMenu();
+        document
+          .querySelectorAll(".bubble")
+          .forEach((b) => b.classList.remove("expanded"));
+        audioPlayer.pause();
+        isAudioLoading = false;
+        clearTimeout(loadTimeout);
+        updatePlayIcons();
+        syncPanelButtons();
+      };
+
+      window.copySiteLink = function (event) {
+        if (event) event.stopPropagation();
+        const url = window.location.href;
+        const label = document.getElementById("copy-link-label");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).catch(() => {});
+        }
+        if (label) {
+          const prevText = label.innerText;
+          label.innerText = "Nusxalandi ✓";
+          setTimeout(() => {
+            label.innerText = prevText;
+            closeHeaderMenu();
+          }, 1100);
+        } else {
+          closeHeaderMenu();
+        }
+      };
+
+      function shatterElementIntoFragments(element) {
+        if (!element) return;
+        const rect = element.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return;
+
+        const sectionColors = [
+          "#0e1621",
+          "#182533",
+          "#212f3d",
+          "#64b5ef",
+          "#7f91a4",
+          "#d6e2ee",
+        ];
+
+        const shardPolygons = [
+          "polygon(0% 0%, 100% 15%, 78% 100%, 10% 85%)",
+          "polygon(12% 0%, 100% 0%, 88% 100%, 0% 78%)",
+          "polygon(0% 18%, 85% 0%, 100% 88%, 20% 100%)",
+          "polygon(8% 4%, 92% 12%, 100% 90%, 0% 96%)",
+          "polygon(0% 8%, 95% 0%, 82% 95%, 14% 100%)",
+          "polygon(15% 2%, 100% 20%, 72% 100%, 0% 72%)",
+        ];
+
+        const cols = 22;
+        const rows = 4;
+        const pieceW = rect.width / cols;
+        const pieceH = rect.height / rows;
+
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const frag = document.createElement("div");
+            frag.className = "shatter-piece";
+
+            const baseSize = Math.max(5, Math.min(pieceW, pieceH) * 0.92);
+            const width = Math.max(5, baseSize * (0.75 + Math.random() * 0.55));
+            const height = Math.max(5, baseSize * (0.75 + Math.random() * 0.55));
+
+            const left = rect.left + c * pieceW + (pieceW - width) / 2;
+            const top = rect.top + r * pieceH + (pieceH - height) / 2;
+
+            const normX = (c - (cols - 1) / 2) / ((cols - 1) / 2 || 1);
+            const normY = (r - (rows - 1) / 2) / ((rows - 1) / 2 || 1);
+            const spreadAngle = Math.atan2(normY, normX) + (Math.random() * 0.7 - 0.35);
+            const distance = 45 + Math.random() * 95;
+
+            const tx = Math.cos(spreadAngle) * distance + normX * 36;
+            const ty = Math.sin(spreadAngle) * (distance * 0.65) + 22 + Math.random() * 28;
+            const rot = (Math.random() * 420 - 210).toFixed(1) + "deg";
+
+            const dur = (4.6 + Math.random() * 0.5).toFixed(2) + "s";
+            const delay = (Math.random() * 0.35).toFixed(2) + "s";
+
+            const color = sectionColors[(r * 7 + c * 3) % sectionColors.length];
+            const poly = shardPolygons[(r * 5 + c) % shardPolygons.length];
+
+            frag.style.left = `${left.toFixed(1)}px`;
+            frag.style.top = `${top.toFixed(1)}px`;
+            frag.style.width = `${width.toFixed(1)}px`;
+            frag.style.height = `${height.toFixed(1)}px`;
+            frag.style.backgroundColor = color;
+            frag.style.clipPath = poly;
+            frag.style.setProperty("--tx", `${tx.toFixed(1)}px`);
+            frag.style.setProperty("--ty", `${ty.toFixed(1)}px`);
+            frag.style.setProperty("--rot", rot);
+            frag.style.setProperty("--dur", dur);
+            frag.style.setProperty("--delay", delay);
+
+            document.body.appendChild(frag);
+            setTimeout(() => frag.remove(), 5300);
+          }
+        }
+      }
+
+      function renderPinnedBar() {
+        const content = document.getElementById("pinned-content");
+        if (!content) return;
+
+        if (pinnedState === "rating") {
+          let starsHtml = "";
+          for (let i = 1; i <= 5; i++) {
+            const activeClass = i <= savedRating ? "active" : "";
+            starsHtml += `
+              <button
+                type="button"
+                class="star-btn ${activeClass}"
+                data-star="${i}"
+                onmouseenter="previewStars(${i})"
+                onmouseleave="resetStarPreview()"
+                onclick="selectRating(${i}, event)"
+                aria-label="${i} yulduz"
+              >${starSvg}</button>
+            `;
+          }
+          content.innerHTML = `
+            <div class="pinned-title">Sahifamizni baholang (1–5 yulduz)</div>
+            <div class="rating-stars" onclick="event.stopPropagation()">${starsHtml}</div>
+          `;
+        } else if (pinnedState === "rated") {
+          content.innerHTML = `
+            <div class="pinned-title">Baho berildi (${savedRating}/5)</div>
+            <div class="pinned-text">Bahoyingiz: ${"⭐".repeat(savedRating)} (${savedRating} yulduz)</div>
+          `;
+        } else {
+          content.innerHTML = `
+            <div class="pinned-title">Qadalgan xabar</div>
+            <div class="pinned-text">Kanalimiz web sahifasiga baho bering ⭐</div>
+          `;
+        }
+      }
+
+      window.openRatingMode = function (event) {
+        if (event) event.stopPropagation();
+        if (hasVotedOnce && pinnedState === "rated") return;
+        pinnedState = "rating";
+        renderPinnedBar();
+      };
+
+      window.previewStars = function (count) {
+        document.querySelectorAll(".star-btn").forEach((btn) => {
+          const val = Number(btn.getAttribute("data-star"));
+          btn.classList.toggle("hovered", val <= count);
+        });
+      };
+
+      window.resetStarPreview = function () {
+        document
+          .querySelectorAll(".star-btn")
+          .forEach((btn) => btn.classList.remove("hovered"));
+      };
+
+      window.selectRating = function (stars, event) {
+        if (event) event.stopPropagation();
+        if (hasVotedOnce) return;
+        savedRating = stars;
+        hasVotedOnce = true;
+        localStorage.setItem("benby_site_rating", String(stars));
+        localStorage.setItem("benby_site_voted", "1");
+        pinnedState = "rated";
+        renderPinnedBar();
+      };
+
+      window.shatterRatingSection = function (event) {
+        if (event) event.stopPropagation();
+        const pinnedBar = document.getElementById("pinned-bar");
+        if (!pinnedBar) return;
+
+        shatterElementIntoFragments(pinnedBar);
+        pinnedBar.classList.add("dismissed");
+      };
+
+      const playIcon =
+        '<svg viewBox="0 0 24 24"><path d="M8 5V19L19 12L8 5Z"/></svg>';
+      const pauseIcon =
+        '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+      const loadIcon = '<div class="spinner"></div>';
+      const prevIcon =
+        '<svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>';
+      const nextIcon =
+        '<svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>';
+
+      const rewind5Icon = `
+        <svg viewBox="0 0 24 24">
+          <path d="M12 5a7 7 0 1 1-6.7 5"></path>
+          <polyline points="8 3 5 5.5 8 8"></polyline>
+          <text x="12" y="15" text-anchor="middle">5</text>
+        </svg>`;
+      const forward5Icon = `
+        <svg viewBox="0 0 24 24">
+          <path d="M12 5a7 7 0 1 0 6.7 5"></path>
+          <polyline points="16 3 19 5.5 16 8"></polyline>
+          <text x="12" y="15" text-anchor="middle">5</text>
+        </svg>`;
+
+      const verticalCollapseIcon = `
+        <svg viewBox="0 0 24 24">
+          <polyline points="8 5 12 9 16 5"></polyline>
+          <polyline points="8 19 12 15 16 19"></polyline>
+        </svg>`;
+      const verticalExpandIcon = `
+        <svg viewBox="0 0 24 24">
+          <polyline points="8 9 12 5 16 9"></polyline>
+          <polyline points="8 15 12 19 16 15"></polyline>
+        </svg>`;
+
+      const resetZeroIcon = `
+        <svg viewBox="0 0 24 24">
+          <path d="M19 6v12h-2V6h2zM15 6l-9 6 9 6V6z"/>
+        </svg>`;
+      const stopTrackIcon = `
+        <svg viewBox="0 0 24 24">
+          <rect x="6" y="6" width="12" height="12" rx="1.5"/>
+        </svg>`;
+
+      const downloadIcon =
+        '<svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>';
+      const tgIcon =
+        '<svg viewBox="0 0 24 24"><path d="M9.78 18.65L10.06 14.42L17.74 7.5C18.08 7.19 17.67 7.04 17.22 7.31L7.74 13.28L3.64 12C2.76 11.74 2.75 11.14 3.84 10.73L19.81 4.58C20.54 4.32 21.2 4.72 20.96 5.84L18.24 18.65C18.05 19.56 17.5 19.78 16.74 19.36L12.6 16.3L10.61 18.23C10.38 18.46 10.19 18.65 9.78 18.65Z"/></svg>';
+
+      function formatTime(seconds) {
+        if (isNaN(seconds) || !isFinite(seconds)) return "00:00";
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return `${m < 10 ? "0" : ""}${m}:${s < 10 ? "0" : ""}${s}`;
+      }
+
+      function closeAllMenus() {
+        document
+          .querySelectorAll(".post-menu")
+          .forEach((m) => m.classList.remove("open"));
+        refreshBackdropBlurState();
+      }
+
+      document.addEventListener("click", () => {
+        closeAllMenus();
+        closeHeaderMenu();
+      });
+
+      window.togglePostMenu = function (index, event) {
+        if (event) event.stopPropagation();
+        closeHeaderMenu();
+        const targetMenu = document.getElementById(`menu-${index}`);
+        if (!targetMenu) return;
+        const wasOpen = targetMenu.classList.contains("open");
+        closeAllMenus();
+        if (!wasOpen) {
+          targetMenu.classList.add("open");
+        }
+        refreshBackdropBlurState();
+      };
+
+      window.downloadTrack = function (index, event) {
+        if (event) event.stopPropagation();
+        closeAllMenus();
+        const track = playlist[index];
+        if (!track) return;
+
+        const a = document.createElement("a");
+        a.href = encodeURI(track.src);
+        a.download = track.fileName || `${track.title}.mp3`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+
+      window.resetTrackToZero = function (index, event) {
+        if (event) event.stopPropagation();
+        const track = localPlaylist[index];
+        if (!track) return;
+
+        const encodedSrc = encodeURI(track.src);
+        const isSameTrack =
+          currentIndex === index && audioPlayer.getAttribute("src") === encodedSrc;
+
+        const curEl = document.getElementById(`current-time-${index}`);
+        const progEl = document.getElementById(`progress-${index}`);
+        if (curEl) curEl.innerText = "00:00";
+        if (progEl) progEl.value = 0;
+
+        if (isSameTrack) {
+          audioPlayer.currentTime = 0;
+        } else {
+          currentIndex = index;
+          audioPlayer.pause();
+          audioPlayer.setAttribute("src", encodedSrc);
+          audioPlayer.load();
+          audioPlayer.currentTime = 0;
+        }
+      };
+
+      window.stopTrackCompletely = function (index, event) {
+        if (event) event.stopPropagation();
+        isAudioLoading = false;
+        clearTimeout(loadTimeout);
+
+        if (currentIndex === index) {
+          audioPlayer.pause();
+          try {
+            audioPlayer.currentTime = 0;
+          } catch (_) {}
         }
 
-        const audios = document.querySelectorAll('.track-audio');
-        
-        audios.forEach(audio => {
-            const card = audio.closest('.card');
-            const btn = card.querySelector('.play-btn');
-            const progressBar = card.querySelector('.progress-bar');
-            const currentTimeEl = card.querySelector('.current-time');
-            const totalTimeEl = card.querySelector('.total-time');
+        const curEl = document.getElementById(`current-time-${index}`);
+        const progEl = document.getElementById(`progress-${index}`);
+        if (curEl) curEl.innerText = "00:00";
+        if (progEl) progEl.value = 0;
 
-            audio.addEventListener('loadedmetadata', () => {
-                totalTimeEl.textContent = formatTime(audio.duration);
-            });
+        updatePlayIcons();
+      };
 
-            audio.addEventListener('timeupdate', () => {
-                const progress = (audio.currentTime / audio.duration) * 100;
-                progressBar.value = progress || 0;
-                currentTimeEl.textContent = formatTime(audio.currentTime);
-                
-                // 30 soniyalik Tizer effekti
-                if(audio.currentTime >= 30) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-            });
+      window.seekBySeconds = function (index, deltaSeconds, event) {
+        if (event) event.stopPropagation();
+        const track = playlist[index];
+        if (!track) return;
 
-            progressBar.addEventListener('input', (e) => {
-                const seekTime = (e.target.value / 100) * audio.duration;
-                audio.currentTime = seekTime;
+        document
+          .querySelectorAll(".bubble")
+          .forEach((b) => b.classList.remove("expanded"));
+        document.getElementById(`bubble-${index}`).classList.add("expanded");
+        syncPanelButtons();
+
+        const encodedSrc = encodeURI(track.src);
+        const isSameTrack =
+          currentIndex === index && audioPlayer.getAttribute("src") === encodedSrc;
+
+        const applySeek = () => {
+          const duration =
+            !isNaN(audioPlayer.duration) && isFinite(audioPlayer.duration)
+              ? audioPlayer.duration
+              : 0;
+          const nextTime = Math.max(
+            0,
+            duration > 0
+              ? Math.min(duration, (audioPlayer.currentTime || 0) + deltaSeconds)
+              : (audioPlayer.currentTime || 0) + deltaSeconds,
+          );
+          audioPlayer.currentTime = nextTime;
+          const progressEl = document.getElementById(`progress-${index}`);
+          const currentEl = document.getElementById(`current-time-${index}`);
+          if (currentEl) currentEl.innerText = formatTime(nextTime);
+          if (progressEl && duration > 0) {
+            progressEl.value = (nextTime / duration) * 100;
+          }
+          audioPlayer.play().catch(() => {});
+          updatePlayIcons();
+        };
+
+        if (!isSameTrack) {
+          currentIndex = index;
+          isAudioLoading = true;
+          audioPlayer.pause();
+          audioPlayer.setAttribute("src", encodedSrc);
+          audioPlayer.load();
+          updatePlayIcons();
+
+          const onReady = () => {
+            audioPlayer.removeEventListener("loadedmetadata", onReady);
+            audioPlayer.removeEventListener("canplay", onReady);
+            applySeek();
+          };
+          audioPlayer.addEventListener("loadedmetadata", onReady);
+          audioPlayer.addEventListener("canplay", onReady);
+        } else {
+          currentIndex = index;
+          applySeek();
+        }
+      };
+
+      function syncPanelButtons() {
+        document.querySelectorAll(".msg-row").forEach((row) => {
+          const bubble = row.querySelector(".bubble");
+          const btn = row.querySelector(".toggle-panel-btn");
+          if (!bubble || !btn) return;
+
+          const isExpanded = bubble.classList.contains("expanded");
+          if (isExpanded) {
+            btn.classList.add("is-open");
+            btn.innerHTML = verticalCollapseIcon;
+            btn.title = "Pleyerni yig'ish";
+            btn.setAttribute("aria-label", "Pleyerni yig'ish");
+          } else {
+            btn.classList.remove("is-open");
+            btn.innerHTML = verticalExpandIcon;
+            btn.title = "Pleyerni ochish";
+            btn.setAttribute("aria-label", "Pleyerni ochish");
+          }
+        });
+      }
+
+      function renderPlaylist() {
+        chatArea.innerHTML = "";
+        playlist = localPlaylist.map((data, originalIndex) => ({
+          ...data,
+          originalIndex,
+        }));
+
+        const filtered = searchQuery
+          ? playlist.filter(
+              (item) =>
+                item.title.toLowerCase().includes(searchQuery) ||
+                item.artist.toLowerCase().includes(searchQuery),
+            )
+          : playlist;
+
+        const dateDiv = document.createElement("div");
+        dateDiv.className = "date-badge";
+        const bugun = new Date();
+        const oylar = [
+          "yanvar",
+          "fevral",
+          "mart",
+          "aprel",
+          "may",
+          "iyun",
+          "iyul",
+          "avgust",
+          "sentyabr",
+          "oktyabr",
+          "noyabr",
+          "dekabr",
+        ];
+        dateDiv.innerText = `${bugun.getDate()} ${oylar[bugun.getMonth()]} ${bugun.getFullYear()}`;
+        chatArea.appendChild(dateDiv);
+
+        if (!localPlaylist.length) {
+          statusText.innerText = "Musiqalar yo'q";
+          return;
+        }
+        statusText.innerText = searchQuery
+          ? `Topildi: ${filtered.length} ta`
+          : `${localPlaylist.length} ta musiqa`;
+
+        if (!filtered.length) {
+          const emptyDiv = document.createElement("div");
+          emptyDiv.className = "empty-search-state";
+          emptyDiv.innerText = `"${searchQuery}" bo'yicha musiqa topilmadi`;
+          chatArea.appendChild(emptyDiv);
+          return;
+        }
+
+        filtered.forEach((data) => {
+          const index = data.originalIndex;
+          const timeString =
+            data.time ||
+            new Date().toLocaleTimeString("uz-UZ", {
+              hour: "2-digit",
+              minute: "2-digit",
             });
-            
-            audio.addEventListener('ended', () => {
-                btn.innerHTML = playIcon;
-                btn.classList.remove('playing');
-                progressBar.value = 0;
-            });
+          const views = data.views || 150;
+          const tgUrl = data.tgLink || TELEGRAM_CHANNEL_URL;
+          const isCurrent = currentIndex === index;
+          const isExpandedClass = isCurrent ? "expanded" : "";
+
+          const msgRow = document.createElement("div");
+          msgRow.className = "msg-row";
+          msgRow.innerHTML = `
+            <div class="bubble ${isExpandedClass}" id="bubble-${index}">
+              <div class="audio-box" onclick="togglePlay(${index})">
+                <div class="play-circle" id="circle-${index}">${playIcon}</div>
+                <div class="track-info">
+                  <div class="track-name">${data.title}</div>
+                  <div class="track-artist">${data.artist}</div>
+                  <div class="track-size">Audio fayl <span class="blue-dot">●</span></div>
+                </div>
+                <button
+                  type="button"
+                  class="more-btn"
+                  title="Yuklab olish"
+                  aria-label="Yuklab olish"
+                  onclick="togglePostMenu(${index}, event)"
+                >⋮</button>
+              </div>
+
+              <div class="post-menu" id="menu-${index}" onclick="event.stopPropagation()">
+                <div class="menu-item" onclick="downloadTrack(${index}, event)">
+                  ${downloadIcon}
+                  <span>Yuklab olish (MP3)</span>
+                </div>
+              </div>
+
+              <div class="expanded-player">
+                <div class="progress-container">
+                  <span id="current-time-${index}">00:00</span>
+                  <input type="range" class="progress-bar" id="progress-${index}" value="0" min="0" max="100" step="0.1">
+                  <span id="total-time-${index}">00:00</span>
+                </div>
+                <div class="controls-container">
+                  <button type="button" class="ctrl-btn seek-icon-btn" title="5 soniya orqaga" aria-label="5 soniya orqaga" onclick="seekBySeconds(${index}, -5, event)">
+                    ${rewind5Icon}
+                  </button>
+                  <button type="button" class="ctrl-btn" title="Oldingi musiqa" aria-label="Oldingi musiqa" onclick="playPrev(event)">${prevIcon}</button>
+                  <button type="button" class="ctrl-btn play-pause-btn" onclick="togglePlay(${index}, event)" id="main-play-btn-${index}">
+                    ${playIcon}
+                  </button>
+                  <button type="button" class="ctrl-btn" title="Keyingi musiqa" aria-label="Keyingi musiqa" onclick="playNext(event)">${nextIcon}</button>
+                  <button type="button" class="ctrl-btn seek-icon-btn" title="5 soniya oldinga" aria-label="5 soniya oldinga" onclick="seekBySeconds(${index}, 5, event)">
+                    ${forward5Icon}
+                  </button>
+                </div>
+              </div>
+
+              <div class="bubble-footer">
+                <a href="${tgUrl}" target="_blank" class="signature">BENBY <span>👑</span></a>
+                <div class="meta">
+                  <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12C2.73 16.39 7 19.5 12 19.5C17 19.5 21.27 16.39 23 12C21.27 7.61 17 4.5 12 4.5ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z"/></svg>
+                  ${views} • ${timeString}
+                </div>
+              </div>
+
+              <a href="${tgUrl}" target="_blank" class="post-tg-btn">
+                ${tgIcon}
+                <span>Telegramda ochish</span>
+              </a>
+            </div>
+
+            <div class="side-actions-col">
+              <button
+                type="button"
+                class="toggle-panel-btn"
+                id="toggle-panel-${index}"
+                title="Pleyerni ochish"
+                aria-label="Pleyerni ochish"
+                onclick="handlePanelToggle(${index}, event)"
+              >${verticalExpandIcon}</button>
+
+              <button
+                type="button"
+                class="side-sub-btn"
+                id="reset-zero-${index}"
+                title="0 soniyaga qaytarish"
+                aria-label="0 soniyaga qaytarish"
+                onclick="resetTrackToZero(${index}, event)"
+              >${resetZeroIcon}</button>
+
+              <button
+                type="button"
+                class="side-sub-btn"
+                id="stop-track-${index}"
+                title="To'xtatish"
+                aria-label="To'xtatish"
+                onclick="stopTrackCompletely(${index}, event)"
+              >${stopTrackIcon}</button>
+            </div>
+          `;
+          chatArea.appendChild(msgRow);
+
+          const progressBar = msgRow.querySelector(`#progress-${index}`);
+          progressBar.addEventListener("input", (e) => {
+            if (currentIndex === index && audioPlayer.duration) {
+              isSeeking = true;
+              const seekTime = (e.target.value / 100) * audioPlayer.duration;
+              document.getElementById(`current-time-${index}`).innerText =
+                formatTime(seekTime);
+            }
+          });
+          progressBar.addEventListener("change", (e) => {
+            if (currentIndex === index && audioPlayer.duration) {
+              audioPlayer.currentTime =
+                (e.target.value / 100) * audioPlayer.duration;
+              isSeeking = false;
+            }
+          });
         });
 
-        window.togglePlay = function(btn) {
-            const card = btn.closest('.card');
-            const currentAudio = card.querySelector('.track-audio');
+        updatePlayIcons();
+        syncPanelButtons();
+        refreshBackdropBlurState();
 
-            // Boshqa audiolarni to'xtatish
-            document.querySelectorAll('.track-audio').forEach(a => {
-                if(a !== currentAudio) {
-                    a.pause();
-                    const otherBtn = a.closest('.card').querySelector('.play-btn');
-                    otherBtn.innerHTML = playIcon;
-                    otherBtn.classList.remove('playing');
-                }
-            });
+        if (!searchQuery) {
+          setTimeout(() => {
+            chatArea.scrollTop = chatArea.scrollHeight;
+          }, 200);
+        }
+      }
 
-            // Hozirgisini boshqarish
-            if (currentAudio.paused) {
-                currentAudio.play();
-                btn.innerHTML = pauseIcon;
-                btn.classList.add('playing');
-            } else {
-                currentAudio.pause();
-                btn.innerHTML = playIcon;
-                btn.classList.remove('playing');
-            }
-        };
+      function startTrack(index) {
+        const track = localPlaylist[index];
+        if (!track) return;
+
+        document
+          .querySelectorAll(".bubble")
+          .forEach((b) => b.classList.remove("expanded"));
+        const targetBubble = document.getElementById(`bubble-${index}`);
+        if (targetBubble) targetBubble.classList.add("expanded");
+        syncPanelButtons();
+
+        const encodedSrc = encodeURI(track.src);
+        const isSameTrack =
+          currentIndex === index && audioPlayer.getAttribute("src") === encodedSrc;
+
+        currentIndex = index;
+
+        if (isSameTrack) {
+          audioPlayer.play().catch(() => {});
+        } else {
+          isAudioLoading = true;
+          audioPlayer.pause();
+          audioPlayer.setAttribute("src", encodedSrc);
+          audioPlayer.load();
+          audioPlayer.play().catch(() => {});
+        }
+        updatePlayIcons();
+      }
+
+      window.handlePanelToggle = function (index, event) {
+        if (event) event.stopPropagation();
+        const bubble = document.getElementById(`bubble-${index}`);
+        if (!bubble) return;
+
+        const isExpanded = bubble.classList.contains("expanded");
+
+        if (isExpanded) {
+          bubble.classList.remove("expanded");
+          if (currentIndex === index) {
+            audioPlayer.pause();
+            isAudioLoading = false;
+            clearTimeout(loadTimeout);
+            updatePlayIcons();
+          }
+          syncPanelButtons();
+        } else {
+          startTrack(index);
+        }
+      };
+
+      window.togglePlay = function (index, event) {
+        if (event) event.stopPropagation();
+
+        if (currentIndex === index) {
+          const bubble = document.getElementById(`bubble-${index}`);
+          if (bubble) bubble.classList.add("expanded");
+          syncPanelButtons();
+          if (audioPlayer.paused) {
+            audioPlayer.play().catch(() => {});
+          } else {
+            audioPlayer.pause();
+          }
+          updatePlayIcons();
+        } else {
+          startTrack(index);
+        }
+      };
+
+      window.playNext = function (event) {
+        if (event) event.stopPropagation();
+        if (!localPlaylist.length) return;
+        let nextIdx = currentIndex + 1;
+        if (nextIdx >= localPlaylist.length) nextIdx = 0;
+        startTrack(nextIdx);
+      };
+
+      window.playPrev = function (event) {
+        if (event) event.stopPropagation();
+        if (!localPlaylist.length) return;
+        let prevIdx = currentIndex - 1;
+        if (prevIdx < 0) prevIdx = localPlaylist.length - 1;
+        startTrack(prevIdx);
+      };
+
+      function updatePlayIcons() {
+        document.querySelectorAll(".play-circle").forEach((c) => {
+          c.innerHTML = playIcon;
+          c.classList.remove("playing");
+        });
+        document
+          .querySelectorAll(".play-pause-btn")
+          .forEach((btn) => (btn.innerHTML = playIcon));
+
+        if (currentIndex === -1) return;
+
+        const activeCircle = document.getElementById(`circle-${currentIndex}`);
+        const activeBtn = document.getElementById(`main-play-btn-${currentIndex}`);
+
+        if (isAudioLoading) {
+          if (activeCircle) activeCircle.innerHTML = loadIcon;
+          if (activeBtn) activeBtn.innerHTML = loadIcon;
+          return;
+        }
+
+        if (!audioPlayer.paused) {
+          if (activeCircle) {
+            activeCircle.innerHTML = pauseIcon;
+            activeCircle.classList.add("playing");
+          }
+          if (activeBtn) {
+            activeBtn.innerHTML = pauseIcon;
+          }
+        }
+      }
+
+      audioPlayer.addEventListener("error", () => {
+        isAudioLoading = false;
+        clearTimeout(loadTimeout);
+        updatePlayIcons();
+      });
+
+      audioPlayer.addEventListener("waiting", () => {
+        isAudioLoading = true;
+        updatePlayIcons();
+
+        clearTimeout(loadTimeout);
+        loadTimeout = setTimeout(() => {
+          if (isAudioLoading) {
+            isAudioLoading = false;
+            updatePlayIcons();
+          }
+        }, 15000);
+      });
+
+      audioPlayer.addEventListener("playing", () => {
+        isAudioLoading = false;
+        clearTimeout(loadTimeout);
+        updatePlayIcons();
+      });
+      audioPlayer.addEventListener("canplay", () => {
+        isAudioLoading = false;
+        clearTimeout(loadTimeout);
+        updatePlayIcons();
+      });
+      audioPlayer.addEventListener("pause", () => {
+        isAudioLoading = false;
+        clearTimeout(loadTimeout);
+        updatePlayIcons();
+      });
+      audioPlayer.addEventListener("ended", playNext);
+
+      audioPlayer.addEventListener("timeupdate", () => {
+        if (currentIndex !== -1 && !isSeeking && !isNaN(audioPlayer.duration)) {
+          const progress =
+            (audioPlayer.currentTime / audioPlayer.duration) * 100;
+          const progEl = document.getElementById(`progress-${currentIndex}`);
+          const curEl = document.getElementById(`current-time-${currentIndex}`);
+          const totEl = document.getElementById(`total-time-${currentIndex}`);
+          if (progEl) progEl.value = progress || 0;
+          if (curEl) curEl.innerText = formatTime(audioPlayer.currentTime);
+          if (totEl) totEl.innerText = formatTime(audioPlayer.duration);
+        }
+      });
+
+      audioPlayer.addEventListener("loadedmetadata", () => {
+        if (currentIndex !== -1 && !isNaN(audioPlayer.duration)) {
+          const totEl = document.getElementById(`total-time-${currentIndex}`);
+          if (totEl) totEl.innerText = formatTime(audioPlayer.duration);
+        }
+      });
+
+      renderPinnedBar();
+      renderPlaylist();
     </script>
-</body>
+  </body>
 </html>
