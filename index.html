@@ -57,6 +57,19 @@
         }
       }
 
+      /* MENYUNI YOPISH UCHUN BLUR QOPLAMA (TUGMALARNI BLOKLAYDI, FAQAT MENYUNI YOPADI) */
+      .blur-dismiss-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 75;
+        display: none;
+        background: transparent;
+        cursor: default;
+      }
+      .app-container.menu-open-blur .blur-dismiss-overlay {
+        display: block;
+      }
+
       /* HEADER */
       .tg-header {
         background-color: #0e1621;
@@ -258,7 +271,7 @@
         box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
         padding: 5px;
         min-width: 215px;
-        z-index: 90;
+        z-index: 95;
         display: none;
         flex-direction: column;
         filter: none !important;
@@ -537,9 +550,10 @@
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-y: contain;
         transform: translateZ(0);
-        padding: 10px 10px 20px 10px;
+        padding: 8px 10px 18px 10px;
         display: flex;
         flex-direction: column;
+        gap: 10px;
         background-color: #0e1621;
         position: relative;
       }
@@ -547,7 +561,17 @@
         display: none;
       }
 
-      /* 3 NUQTA MENYUSI OCHILGANDA SAYT TO'LIQ BLUR BO'LADI, FAQAT BOSILGAN 3 NUQTA TUGMASI VA UNGA TEGISHLI MENYU TINIQ QOLADI */
+      /* HAR BIR POST UCHUN ALOHIDA ZONA */
+      .post-zone {
+        width: 100%;
+        background-color: rgba(23, 33, 43, 0.45);
+        border: 1px solid rgba(127, 145, 164, 0.12);
+        border-radius: 16px;
+        padding: 8px;
+        transition: border-color 0.18s ease, background-color 0.18s ease, filter 0.18s ease;
+      }
+
+      /* 3 NUQTA MENYUSI OCHILGANDA SAYT QISMLARIGA BLUR, LEKIN 3 NUQTA VA MENYU ORQASIDA BLUR ISHLAMAYDI */
       .app-container.menu-open-blur .back-pill-btn,
       .app-container.menu-open-blur .middle-capsule,
       .app-container.menu-open-blur #open-search-btn,
@@ -573,20 +597,50 @@
         transition: filter 0.16s ease;
       }
 
+      .app-container.menu-open-blur .bubble:has(.post-menu.open) {
+        background-color: transparent;
+        box-shadow: none;
+      }
+
+      /* KO'P BOSIB TURILGANDA (LONG-PRESS) BOSILGAN POSTDAN TASHQARI HAMMA EKRAN BLUR BO'LADI */
+      .app-container.post-long-press-active .tg-header,
+      .app-container.post-long-press-active .subscriber-bar,
+      .app-container.post-long-press-active .date-badge,
+      .app-container.post-long-press-active .empty-search-state,
+      .app-container.post-long-press-active .post-zone:not(.long-pressed-zone) {
+        filter: blur(3.2px);
+        transition: filter 0.16s ease;
+      }
+
+      .post-zone.long-pressed-zone {
+        position: relative;
+        z-index: 50;
+        background-color: rgba(24, 37, 51, 0.96);
+        border-color: rgba(100, 181, 239, 0.55);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+        filter: none !important;
+      }
+
       .capsule-icon-btn.menu-active-trigger,
       .more-btn.menu-active-trigger,
       .header-menu,
       .post-menu {
         filter: none !important;
-        position: relative;
+      }
+
+      .capsule-icon-btn.menu-active-trigger,
+      .more-btn.menu-active-trigger {
+        z-index: 90;
       }
 
       .header-menu {
         position: absolute;
+        z-index: 95;
       }
 
       .post-menu {
         position: absolute;
+        z-index: 95;
       }
 
       .date-badge {
@@ -597,7 +651,7 @@
         font-weight: 500;
         padding: 4px 12px;
         border-radius: 12px;
-        margin: 12px 0 8px 0;
+        margin: 6px 0 2px 0;
       }
 
       .empty-search-state {
@@ -612,8 +666,10 @@
         align-items: flex-start;
         gap: 8px;
         position: relative;
-        margin-bottom: 8px;
+        margin-bottom: 0;
         scroll-margin-top: 12px;
+        user-select: none;
+        -webkit-user-select: none;
       }
 
       .bubble {
@@ -621,8 +677,8 @@
         border-radius: 14px;
         border-bottom-left-radius: 4px;
         padding: 8px 12px 8px 12px;
-        width: 85%;
-        max-width: 330px;
+        flex-grow: 1;
+        max-width: calc(100% - 42px);
         display: flex;
         flex-direction: column;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
@@ -632,7 +688,7 @@
       /* O'NG YONDAGI VERTIKAL YIG'ISH + 0s + TO'XTATISH USTUNI */
       .side-actions-col {
         align-self: flex-start;
-        margin-top: 8px;
+        margin-top: 6px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -796,8 +852,6 @@
         cursor: pointer;
         align-self: flex-start;
         flex-shrink: 0;
-        position: relative;
-        z-index: 80;
         transition: background-color 0.15s, color 0.15s;
       }
       .more-btn:hover,
@@ -816,7 +870,7 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
         padding: 4px;
         min-width: 170px;
-        z-index: 90;
+        z-index: 95;
         display: none;
         flex-direction: column;
         filter: none !important;
@@ -1197,6 +1251,12 @@
   </head>
   <body>
     <div class="app-container" id="app-container">
+      <div
+        class="blur-dismiss-overlay"
+        id="blur-dismiss-overlay"
+        onclick="consumeBlurOverlayClick(event)"
+        onpointerdown="consumeBlurOverlayPointerDown(event)"
+      ></div>
       <audio id="main-audio" preload="metadata"></audio>
 
       <!-- HEADER -->
@@ -1298,7 +1358,7 @@
         </div>
 
         <!-- 3 NUQTA DROPDOWN MENYU -->
-        <div class="header-menu" id="header-menu" onclick="event.stopPropagation()">
+        <div class="header-menu" id="header-menu" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()">
           <a href="https://t.me/BENBY" target="_blank" class="header-menu-item" onclick="closeHeaderMenu()">
             <svg viewBox="0 0 24 24"><path d="M9.78 18.65L10.06 14.42L17.74 7.5C18.08 7.19 17.67 7.04 17.22 7.31L7.74 13.28L3.64 12C2.76 11.74 2.75 11.14 3.84 10.73L19.81 4.58C20.54 4.32 21.2 4.72 20.96 5.84L18.24 18.65C18.05 19.56 17.5 19.78 16.74 19.36L12.6 16.3L10.61 18.23C10.38 18.46 10.19 18.65 9.78 18.65Z"/></svg>
             <span>Telegram kanal (@BENBY)</span>
@@ -1542,12 +1602,80 @@
       let activeCurrentTimeEl = null;
       let activeTotalTimeEl = null;
 
+      let longPressTimer = null;
+      let longPressActivatedIndex = null;
+      let longPressStartX = 0;
+      let longPressStartY = 0;
+
       let pinnedState = "prompt";
       let savedRating = Number(localStorage.getItem("benby_site_rating") || 0);
       let hasVotedOnce = Boolean(localStorage.getItem("benby_site_voted"));
 
       const starSvg =
         '<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+
+      function clearPostLongPress() {
+        if (longPressTimer) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+        document
+          .querySelectorAll(".post-zone.long-pressed-zone")
+          .forEach((z) => z.classList.remove("long-pressed-zone"));
+        if (appContainer) {
+          appContainer.classList.remove("post-long-press-active");
+        }
+      }
+
+      window.startPostLongPress = function (index, event) {
+        if (!event) return;
+        if (
+          event.target.closest(".more-btn") ||
+          event.target.closest(".post-menu") ||
+          event.target.closest(".side-actions-col") ||
+          event.target.closest(".post-tg-btn") ||
+          event.target.closest(".progress-bar")
+        ) {
+          return;
+        }
+
+        clearPostLongPress();
+        longPressStartX = event.clientX || 0;
+        longPressStartY = event.clientY || 0;
+        longPressActivatedIndex = null;
+
+        longPressTimer = setTimeout(() => {
+          const zone = document.getElementById(`zone-${index}`);
+          if (!zone || !appContainer) return;
+          longPressActivatedIndex = index;
+          zone.classList.add("long-pressed-zone");
+          appContainer.classList.add("post-long-press-active");
+        }, 450);
+      };
+
+      window.movePostLongPress = function (event) {
+        if (!longPressTimer || !event) return;
+        const dx = Math.abs((event.clientX || 0) - longPressStartX);
+        const dy = Math.abs((event.clientY || 0) - longPressStartY);
+        if (dx > 10 || dy > 10) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+      };
+
+      window.endPostLongPress = function () {
+        if (longPressTimer) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+        if (longPressActivatedIndex !== null) {
+          clearPostLongPress();
+        }
+      };
+
+      document.addEventListener("pointerup", endPostLongPress);
+      document.addEventListener("pointercancel", clearPostLongPress);
+      chatArea.addEventListener("scroll", clearPostLongPress, { passive: true });
 
       function resetTrackProgressUI(index) {
         if (index < 0) return;
@@ -1596,9 +1724,9 @@
 
       window.scrollToFirstPost = function (event) {
         if (event) event.stopPropagation();
-        const firstRow = chatArea.querySelector(".msg-row");
-        if (firstRow) {
-          firstRow.scrollIntoView({ behavior: "smooth", block: "start" });
+        const firstZone = chatArea.querySelector(".post-zone");
+        if (firstZone) {
+          firstZone.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
           chatArea.scrollTo({ top: 0, behavior: "smooth" });
         }
@@ -1695,6 +1823,20 @@
         }
       }
 
+      window.consumeBlurOverlayPointerDown = function (event) {
+        if (!event) return;
+        event.preventDefault();
+        event.stopPropagation();
+        closeAllMenus();
+        closeHeaderMenu();
+      };
+
+      window.consumeBlurOverlayClick = function (event) {
+        if (!event) return;
+        event.preventDefault();
+        event.stopPropagation();
+      };
+
       /* QIDIRUV VA HEADER 3 NUQTA MENYUSI */
       window.openSearchBar = function (event) {
         if (event) event.stopPropagation();
@@ -1742,9 +1884,12 @@
 
       window.toggleHeaderMenu = function (event) {
         if (event) event.stopPropagation();
-        closeAllMenus();
         const menu = document.getElementById("header-menu");
-        if (menu) menu.classList.toggle("open");
+        const wasOpen = Boolean(menu?.classList.contains("open"));
+        closeAllMenus();
+        if (menu && !wasOpen) {
+          menu.classList.add("open");
+        }
         refreshBackdropBlurState();
       };
 
@@ -2013,18 +2158,17 @@
         refreshBackdropBlurState();
       }
 
-      document.addEventListener("click", () => {
-        closeAllMenus();
-        closeHeaderMenu();
-      });
-
       window.togglePostMenu = function (index, event) {
         if (event) event.stopPropagation();
-        closeHeaderMenu();
+        const headerMenu = document.getElementById("header-menu");
+        if (headerMenu) headerMenu.classList.remove("open");
+
         const targetMenu = document.getElementById(`menu-${index}`);
         if (!targetMenu) return;
         const wasOpen = targetMenu.classList.contains("open");
-        closeAllMenus();
+        document
+          .querySelectorAll(".post-menu")
+          .forEach((m) => m.classList.remove("open"));
         if (!wasOpen) {
           targetMenu.classList.add("open");
         }
@@ -2234,102 +2378,107 @@
           const isCurrent = currentIndex === index;
           const isExpandedClass = isCurrent ? "expanded" : "";
 
-          const msgRow = document.createElement("div");
-          msgRow.className = "msg-row";
-          msgRow.id = `row-${index}`;
-          msgRow.innerHTML = `
-            <div class="bubble ${isExpandedClass}" id="bubble-${index}">
-              <div class="audio-box" onclick="togglePlay(${index})">
-                <div class="play-circle" id="circle-${index}">${playIcon}</div>
-                <div class="track-info">
-                  <div class="track-name">${data.title}</div>
-                  <div class="track-artist">${data.artist}</div>
-                  <div class="track-size">Audio fayl <span class="blue-dot">●</span></div>
+          const postZone = document.createElement("div");
+          postZone.className = "post-zone";
+          postZone.id = `zone-${index}`;
+          postZone.onpointerdown = (e) => startPostLongPress(index, e);
+          postZone.onpointermove = (e) => movePostLongPress(e);
+
+          postZone.innerHTML = `
+            <div class="msg-row" id="row-${index}">
+              <div class="bubble ${isExpandedClass}" id="bubble-${index}">
+                <div class="audio-box" onclick="togglePlay(${index})">
+                  <div class="play-circle" id="circle-${index}">${playIcon}</div>
+                  <div class="track-info">
+                    <div class="track-name">${data.title}</div>
+                    <div class="track-artist">${data.artist}</div>
+                    <div class="track-size">Audio fayl <span class="blue-dot">●</span></div>
+                  </div>
+                  <button
+                    type="button"
+                    class="more-btn"
+                    data-menu-index="${index}"
+                    title="Yuklab olish"
+                    aria-label="Yuklab olish"
+                    onclick="togglePostMenu(${index}, event)"
+                  >⋮</button>
                 </div>
+
+                <div class="post-menu" id="menu-${index}" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()">
+                  <div class="menu-item" onclick="downloadTrack(${index}, event)">
+                    ${downloadIcon}
+                    <span>Yuklab olish (MP3)</span>
+                  </div>
+                </div>
+
+                <div class="expanded-player">
+                  <div class="progress-container">
+                    <span id="current-time-${index}">00:00</span>
+                    <input type="range" class="progress-bar" id="progress-${index}" value="0" min="0" max="100" step="0.1">
+                    <span id="total-time-${index}">00:00</span>
+                  </div>
+                  <div class="controls-container">
+                    <button type="button" class="ctrl-btn seek-icon-btn" title="5 soniya orqaga" aria-label="5 soniya orqaga" onclick="seekBySeconds(${index}, -5, event)">
+                      ${rewind5Icon}
+                    </button>
+                    <button type="button" class="ctrl-btn" title="Oldingi musiqa" aria-label="Oldingi musiqa" onclick="playPrev(event)">${prevIcon}</button>
+                    <button type="button" class="ctrl-btn play-pause-btn" onclick="togglePlay(${index}, event)" id="main-play-btn-${index}">
+                      ${playIcon}
+                    </button>
+                    <button type="button" class="ctrl-btn" title="Keyingi musiqa" aria-label="Keyingi musiqa" onclick="playNext(event)">${nextIcon}</button>
+                    <button type="button" class="ctrl-btn seek-icon-btn" title="5 soniya oldinga" aria-label="5 soniya oldinga" onclick="seekBySeconds(${index}, 5, event)">
+                      ${forward5Icon}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="bubble-footer">
+                  <a href="${tgUrl}" target="_blank" class="signature">BENBY <span>👑</span></a>
+                  <div class="meta">
+                    <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12C2.73 16.39 7 19.5 12 19.5C17 19.5 21.27 16.39 23 12C21.27 7.61 17 4.5 12 4.5ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z"/></svg>
+                    ${views} • ${timeString}
+                  </div>
+                </div>
+
+                <a href="${tgUrl}" target="_blank" class="post-tg-btn">
+                  ${tgIcon}
+                  <span>Telegramda ochish</span>
+                </a>
+              </div>
+
+              <div class="side-actions-col">
                 <button
                   type="button"
-                  class="more-btn"
-                  data-menu-index="${index}"
-                  title="Yuklab olish"
-                  aria-label="Yuklab olish"
-                  onclick="togglePostMenu(${index}, event)"
-                >⋮</button>
+                  class="toggle-panel-btn"
+                  id="toggle-panel-${index}"
+                  title="Pleyerni ochish"
+                  aria-label="Pleyerni ochish"
+                  onclick="handlePanelToggle(${index}, event)"
+                >${verticalExpandIcon}</button>
+
+                <button
+                  type="button"
+                  class="side-sub-btn"
+                  id="reset-zero-${index}"
+                  title="0 soniyaga qaytarish"
+                  aria-label="0 soniyaga qaytarish"
+                  onclick="resetTrackToZero(${index}, event)"
+                >${resetZeroIcon}</button>
+
+                <button
+                  type="button"
+                  class="side-sub-btn"
+                  id="stop-track-${index}"
+                  title="To'xtatish"
+                  aria-label="To'xtatish"
+                  onclick="stopTrackCompletely(${index}, event)"
+                >${stopTrackIcon}</button>
               </div>
-
-              <div class="post-menu" id="menu-${index}" onclick="event.stopPropagation()">
-                <div class="menu-item" onclick="downloadTrack(${index}, event)">
-                  ${downloadIcon}
-                  <span>Yuklab olish (MP3)</span>
-                </div>
-              </div>
-
-              <div class="expanded-player">
-                <div class="progress-container">
-                  <span id="current-time-${index}">00:00</span>
-                  <input type="range" class="progress-bar" id="progress-${index}" value="0" min="0" max="100" step="0.1">
-                  <span id="total-time-${index}">00:00</span>
-                </div>
-                <div class="controls-container">
-                  <button type="button" class="ctrl-btn seek-icon-btn" title="5 soniya orqaga" aria-label="5 soniya orqaga" onclick="seekBySeconds(${index}, -5, event)">
-                    ${rewind5Icon}
-                  </button>
-                  <button type="button" class="ctrl-btn" title="Oldingi musiqa" aria-label="Oldingi musiqa" onclick="playPrev(event)">${prevIcon}</button>
-                  <button type="button" class="ctrl-btn play-pause-btn" onclick="togglePlay(${index}, event)" id="main-play-btn-${index}">
-                    ${playIcon}
-                  </button>
-                  <button type="button" class="ctrl-btn" title="Keyingi musiqa" aria-label="Keyingi musiqa" onclick="playNext(event)">${nextIcon}</button>
-                  <button type="button" class="ctrl-btn seek-icon-btn" title="5 soniya oldinga" aria-label="5 soniya oldinga" onclick="seekBySeconds(${index}, 5, event)">
-                    ${forward5Icon}
-                  </button>
-                </div>
-              </div>
-
-              <div class="bubble-footer">
-                <a href="${tgUrl}" target="_blank" class="signature">BENBY <span>👑</span></a>
-                <div class="meta">
-                  <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12C2.73 16.39 7 19.5 12 19.5C17 19.5 21.27 16.39 23 12C21.27 7.61 17 4.5 12 4.5ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z"/></svg>
-                  ${views} • ${timeString}
-                </div>
-              </div>
-
-              <a href="${tgUrl}" target="_blank" class="post-tg-btn">
-                ${tgIcon}
-                <span>Telegramda ochish</span>
-              </a>
-            </div>
-
-            <div class="side-actions-col">
-              <button
-                type="button"
-                class="toggle-panel-btn"
-                id="toggle-panel-${index}"
-                title="Pleyerni ochish"
-                aria-label="Pleyerni ochish"
-                onclick="handlePanelToggle(${index}, event)"
-              >${verticalExpandIcon}</button>
-
-              <button
-                type="button"
-                class="side-sub-btn"
-                id="reset-zero-${index}"
-                title="0 soniyaga qaytarish"
-                aria-label="0 soniyaga qaytarish"
-                onclick="resetTrackToZero(${index}, event)"
-              >${resetZeroIcon}</button>
-
-              <button
-                type="button"
-                class="side-sub-btn"
-                id="stop-track-${index}"
-                title="To'xtatish"
-                aria-label="To'xtatish"
-                onclick="stopTrackCompletely(${index}, event)"
-              >${stopTrackIcon}</button>
             </div>
           `;
-          chatArea.appendChild(msgRow);
+          chatArea.appendChild(postZone);
 
-          const progressBar = msgRow.querySelector(`#progress-${index}`);
+          const progressBar = postZone.querySelector(`#progress-${index}`);
           progressBar.addEventListener("input", (e) => {
             if (currentIndex === index && audioPlayer.duration) {
               isSeeking = true;
