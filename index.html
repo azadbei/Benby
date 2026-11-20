@@ -311,6 +311,9 @@
         border-top-width: 0;
         pointer-events: none;
       }
+      .pinned.locked {
+        cursor: default;
+      }
       .pinned-line {
         width: 2.5px;
         height: 34px;
@@ -1105,22 +1108,76 @@
           views: 406,
         },
         {
-          title: "ФОГЕЛЬ - ЧАСЫ",
+          title: "BENBY MIX - TRACK 03",
           artist: "BENBY",
           src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
-          fileName: "ФОГЕЛЬ-ЧАСЫ.mp3",
+          fileName: "BENBY-TRACK-03.mp3",
           tgLink: "https://t.me/BENBY/653",
-          time: "20:15",
+          time: "19:05",
           views: 512,
         },
         {
-          title: "ЮЛИЯ ГАВРИЛОВА - АЙ ВЫ ЦЫГАНЕ",
+          title: "BENBY NIGHT - TRACK 04",
           artist: "BENBY",
           src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
-          fileName: "ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
+          fileName: "BENBY-TRACK-04.mp3",
           tgLink: "https://t.me/BENBY/659",
-          time: "21:40",
+          time: "19:48",
           views: 389,
+        },
+        {
+          title: "BENBY DEEP - TRACK 05",
+          artist: "BENBY",
+          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
+          fileName: "BENBY-TRACK-05.mp3",
+          tgLink: "https://t.me/BENBY/653",
+          time: "20:15",
+          views: 624,
+        },
+        {
+          title: "BENBY VIBE - TRACK 06",
+          artist: "BENBY",
+          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
+          fileName: "BENBY-TRACK-06.mp3",
+          tgLink: "https://t.me/BENBY/659",
+          time: "20:42",
+          views: 478,
+        },
+        {
+          title: "BENBY MOOD - TRACK 07",
+          artist: "BENBY",
+          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
+          fileName: "BENBY-TRACK-07.mp3",
+          tgLink: "https://t.me/BENBY/653",
+          time: "21:10",
+          views: 531,
+        },
+        {
+          title: "BENBY SOUL - TRACK 08",
+          artist: "BENBY",
+          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
+          fileName: "BENBY-TRACK-08.mp3",
+          tgLink: "https://t.me/BENBY/659",
+          time: "21:35",
+          views: 419,
+        },
+        {
+          title: "BENBY CLUB - TRACK 09",
+          artist: "BENBY",
+          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
+          fileName: "BENBY-TRACK-09.mp3",
+          tgLink: "https://t.me/BENBY/653",
+          time: "22:04",
+          views: 690,
+        },
+        {
+          title: "BENBY FINALE - TRACK 10",
+          artist: "BENBY",
+          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
+          fileName: "BENBY-TRACK-10.mp3",
+          tgLink: "https://t.me/BENBY/659",
+          time: "22:30",
+          views: 745,
         },
       ];
 
@@ -1332,8 +1389,9 @@
       }
 
       function renderPinnedBar() {
+        const pinnedBar = document.getElementById("pinned-bar");
         const content = document.getElementById("pinned-content");
-        if (!content) return;
+        if (!pinnedBar || !content) return;
 
         if (pinnedState === "rating") {
           let starsHtml = "";
@@ -1370,7 +1428,6 @@
 
       window.openRatingMode = function (event) {
         if (event) event.stopPropagation();
-        if (hasVotedOnce && pinnedState === "rated") return;
         pinnedState = "rating";
         renderPinnedBar();
       };
@@ -1390,7 +1447,6 @@
 
       window.selectRating = function (stars, event) {
         if (event) event.stopPropagation();
-        if (hasVotedOnce) return;
         savedRating = stars;
         hasVotedOnce = true;
         localStorage.setItem("benby_site_rating", String(stars));
