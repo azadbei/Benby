@@ -23,6 +23,7 @@
         display: flex;
         justify-content: center;
         height: 100vh;
+        height: 100dvh;
         overflow: hidden;
       }
 
@@ -33,6 +34,7 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
+        height: 100dvh;
         position: relative;
         overflow: hidden;
       }
@@ -63,6 +65,7 @@
         flex-direction: column;
         z-index: 20;
         position: relative;
+        flex-shrink: 0;
       }
       .top-bar {
         display: flex;
@@ -82,7 +85,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: background-color 0.2s, transform 0.15s;
+        transition: background-color 0.15s, transform 0.12s;
         flex-shrink: 0;
         text-decoration: none;
       }
@@ -106,8 +109,16 @@
         background-color: #212f3d;
         border: none;
         overflow: hidden;
-        text-decoration: none;
+        cursor: pointer;
+        text-align: left;
         min-width: 0;
+        transition: background-color 0.15s, transform 0.12s;
+      }
+      .middle-capsule:hover {
+        background-color: #263647;
+      }
+      .middle-capsule:active {
+        transform: scale(0.99);
       }
       .avatar-main {
         width: 36px;
@@ -173,7 +184,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: background-color 0.2s, transform 0.15s;
+        transition: background-color 0.15s, transform 0.12s;
         flex-shrink: 0;
         text-decoration: none;
         background: none;
@@ -244,14 +255,13 @@
         background-color: #1f2c3a;
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 12px;
-        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
         padding: 5px;
         min-width: 215px;
-        z-index: 60;
+        z-index: 90;
         display: none;
         flex-direction: column;
         filter: none !important;
-        backdrop-filter: none !important;
       }
       .header-menu.open {
         display: flex;
@@ -284,6 +294,93 @@
         flex-shrink: 0;
       }
 
+      /* TELEGRAM USLUBIDAGI IXCHAM MINI-PLEYER BOSHQARUV PANELI */
+      .top-mini-player {
+        display: flex;
+        align-items: center;
+        background-color: #17212b;
+        border-top: 1px solid #101921;
+        padding: 0 8px;
+        gap: 6px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transition:
+          max-height 0.22s ease,
+          opacity 0.2s ease,
+          height 0.22s ease;
+      }
+      .top-mini-player.visible {
+        max-height: 36px;
+        height: 36px;
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .mini-play-btn {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background-color 0.15s, transform 0.12s;
+      }
+      .mini-play-btn:hover {
+        background-color: rgba(100, 181, 239, 0.14);
+      }
+      .mini-play-btn:active {
+        transform: scale(0.9);
+      }
+      .mini-play-btn svg {
+        width: 16px;
+        height: 16px;
+        fill: #64b5ef;
+      }
+      .mini-track-info {
+        flex-grow: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+      .mini-track-title {
+        font-size: 12.5px;
+        font-weight: 500;
+        color: #e8eff6;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .mini-close-btn {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background-color 0.15s, transform 0.15s;
+      }
+      .mini-close-btn:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+      }
+      .mini-close-btn:active {
+        transform: scale(0.9);
+      }
+      .mini-close-btn svg {
+        width: 11px;
+        height: 11px;
+        fill: #7f91a4;
+      }
+
       /* QADALGAN XABAR VA BAHOLASH */
       .pinned {
         display: flex;
@@ -295,10 +392,10 @@
         position: relative;
         overflow: hidden;
         transition:
-          opacity 0.55s ease,
-          transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-          max-height 0.55s ease,
-          padding 0.55s ease;
+          opacity 0.45s ease,
+          transform 0.45s ease,
+          max-height 0.45s ease,
+          padding 0.45s ease;
         max-height: 70px;
         opacity: 1;
       }
@@ -375,7 +472,7 @@
         fill: #243546;
         stroke: #64b5ef;
         stroke-width: 1.4;
-        transition: fill 0.2s, stroke 0.2s;
+        transition: fill 0.15s, stroke 0.15s;
       }
       .star-btn.active svg,
       .star-btn.hovered svg {
@@ -394,7 +491,7 @@
         border: none;
         cursor: pointer;
         flex-shrink: 0;
-        transition: background-color 0.2s, transform 0.25s;
+        transition: background-color 0.15s, transform 0.2s;
       }
       .close-btn:hover {
         background-color: rgba(255, 255, 255, 0.08);
@@ -414,7 +511,6 @@
         pointer-events: none;
         z-index: 999;
         opacity: 0.96;
-        will-change: transform, opacity;
         animation: shatterCrisp5s var(--dur, 5s) cubic-bezier(0.12, 0.68, 0.22, 1) var(--delay, 0s) forwards;
       }
       @keyframes shatterCrisp5s {
@@ -434,24 +530,63 @@
         }
       }
 
-      /* CHAT QISMI */
+      /* CHAT QISMI — TELEFONDA SILLIQ SCROLL UCHUN OPTIMALLASHGAN */
       .chat-area {
         flex-grow: 1;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+        transform: translateZ(0);
         padding: 10px 10px 20px 10px;
         display: flex;
         flex-direction: column;
         background-color: #0e1621;
         position: relative;
-        transition: filter 0.22s ease;
       }
       .chat-area::-webkit-scrollbar {
         display: none;
       }
 
-      /* POSTLAR ORQASIDA 3-4% YENGIL BLUR EFFEKT */
-      .app-container.menu-open-blur .chat-area {
-        filter: blur(1.8px);
+      /* 3 NUQTA MENYUSI OCHILGANDA SAYT TO'LIQ BLUR BO'LADI, FAQAT BOSILGAN 3 NUQTA TUGMASI VA UNGA TEGISHLI MENYU TINIQ QOLADI */
+      .app-container.menu-open-blur .back-pill-btn,
+      .app-container.menu-open-blur .middle-capsule,
+      .app-container.menu-open-blur #open-search-btn,
+      .app-container.menu-open-blur .search-bar,
+      .app-container.menu-open-blur .top-mini-player,
+      .app-container.menu-open-blur .pinned,
+      .app-container.menu-open-blur .subscriber-bar,
+      .app-container.menu-open-blur .date-badge,
+      .app-container.menu-open-blur .empty-search-state,
+      .app-container.menu-open-blur .play-circle,
+      .app-container.menu-open-blur .track-info,
+      .app-container.menu-open-blur .expanded-player,
+      .app-container.menu-open-blur .bubble-footer,
+      .app-container.menu-open-blur .post-tg-btn,
+      .app-container.menu-open-blur .side-actions-col {
+        filter: blur(2.6px);
+        transition: filter 0.16s ease;
+      }
+
+      .app-container.menu-open-blur .capsule-icon-btn:not(.menu-active-trigger),
+      .app-container.menu-open-blur .more-btn:not(.menu-active-trigger) {
+        filter: blur(2.6px);
+        transition: filter 0.16s ease;
+      }
+
+      .capsule-icon-btn.menu-active-trigger,
+      .more-btn.menu-active-trigger,
+      .header-menu,
+      .post-menu {
+        filter: none !important;
+        position: relative;
+      }
+
+      .header-menu {
+        position: absolute;
+      }
+
+      .post-menu {
+        position: absolute;
       }
 
       .date-badge {
@@ -478,6 +613,7 @@
         gap: 8px;
         position: relative;
         margin-bottom: 8px;
+        scroll-margin-top: 12px;
       }
 
       .bubble {
@@ -489,8 +625,7 @@
         max-width: 330px;
         display: flex;
         flex-direction: column;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-        transition: background-color 0.2s;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
         position: relative;
       }
 
@@ -510,13 +645,13 @@
         height: 34px;
         border-radius: 50%;
         border: 1px solid rgba(127, 145, 164, 0.25);
-        background-color: rgba(23, 33, 43, 0.92);
+        background-color: #17212b;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         flex-shrink: 0;
-        transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+        transition: transform 0.15s, background-color 0.15s, border-color 0.15s;
       }
       .toggle-panel-btn:hover {
         background-color: rgba(100, 181, 239, 0.16);
@@ -537,7 +672,7 @@
         stroke-width: 2.2;
         stroke-linecap: round;
         stroke-linejoin: round;
-        transition: stroke 0.2s, transform 0.2s;
+        transition: stroke 0.15s;
       }
       .toggle-panel-btn:hover svg,
       .toggle-panel-btn.is-open svg {
@@ -549,13 +684,13 @@
         height: 30px;
         border-radius: 50%;
         border: 1px solid rgba(127, 145, 164, 0.2);
-        background-color: rgba(23, 33, 43, 0.85);
+        background-color: #17212b;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         flex-shrink: 0;
-        transition: transform 0.18s, background-color 0.18s, border-color 0.18s;
+        transition: transform 0.15s, background-color 0.15s, border-color 0.15s;
       }
       .side-sub-btn:hover {
         background-color: rgba(100, 181, 239, 0.16);
@@ -569,7 +704,7 @@
         height: 15px;
         stroke: #9ab0c4;
         fill: #9ab0c4;
-        transition: stroke 0.18s, fill 0.18s;
+        transition: stroke 0.15s, fill 0.15s;
       }
       .side-sub-btn:hover svg {
         stroke: #64b5ef;
@@ -649,7 +784,7 @@
       .more-btn {
         background: none;
         border: none;
-        color: #7f91a4;
+        color: #9ab0c4;
         font-weight: bold;
         font-size: 18px;
         width: 28px;
@@ -661,10 +796,13 @@
         cursor: pointer;
         align-self: flex-start;
         flex-shrink: 0;
-        transition: background-color 0.2s, color 0.2s;
+        position: relative;
+        z-index: 80;
+        transition: background-color 0.15s, color 0.15s;
       }
-      .more-btn:hover {
-        background-color: rgba(255, 255, 255, 0.08);
+      .more-btn:hover,
+      .more-btn.menu-active-trigger {
+        background-color: rgba(100, 181, 239, 0.16);
         color: #ffffff;
       }
 
@@ -678,11 +816,10 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
         padding: 4px;
         min-width: 170px;
-        z-index: 60;
+        z-index: 90;
         display: none;
         flex-direction: column;
         filter: none !important;
-        backdrop-filter: none !important;
       }
       .post-menu.open {
         display: flex;
@@ -761,7 +898,7 @@
         font-size: 12.5px;
         font-weight: 600;
         border: 1px solid rgba(100, 181, 239, 0.22);
-        transition: background-color 0.2s, border-color 0.2s, transform 0.15s;
+        transition: background-color 0.15s, border-color 0.15s, transform 0.12s;
       }
       .post-tg-btn:hover {
         background-color: rgba(100, 181, 239, 0.2);
@@ -782,9 +919,10 @@
         max-height: 0;
         overflow: hidden;
         transition:
-          max-height 0.3s ease-in-out,
-          margin-top 0.3s ease,
-          padding-top 0.3s ease;
+          max-height 0.26s ease-out,
+          margin-top 0.26s ease,
+          padding-top 0.26s ease,
+          opacity 0.22s ease;
         display: flex;
         flex-direction: column;
         opacity: 0;
@@ -822,7 +960,6 @@
         border-radius: 50%;
         background: #64b5ef;
         cursor: pointer;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
       }
 
       .controls-container {
@@ -847,7 +984,7 @@
         width: 24px;
         height: 24px;
         fill: #ffffff;
-        transition: 0.1s;
+        transition: transform 0.1s;
       }
       .ctrl-btn:active svg {
         transform: scale(0.9);
@@ -860,7 +997,7 @@
         border-radius: 50%;
         border: 1px solid rgba(127, 145, 164, 0.25);
         background-color: rgba(255, 255, 255, 0.03);
-        transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+        transition: background-color 0.15s, border-color 0.15s, transform 0.12s;
       }
       .seek-icon-btn svg {
         width: 22px;
@@ -895,7 +1032,7 @@
         fill: #64b5ef;
       }
 
-      /* HEADERDAGI KABI KAPSULA FOOTER */
+      /* HEADERDAGI KABI KAPSULA FOOTER + PASTGA TEZ TUSHISH TUGMASI */
       .subscriber-bar {
         background-color: #0e1621;
         display: flex;
@@ -903,9 +1040,13 @@
         justify-content: center;
         height: 60px;
         padding: 6px 8px;
-        position: sticky;
-        bottom: 0;
+        gap: 7px;
+        position: relative;
+        flex-shrink: 0;
         z-index: 20;
+      }
+      .subscriber-bar.at-bottom {
+        gap: 0;
       }
       .join-channel-capsule {
         flex-grow: 1;
@@ -921,7 +1062,10 @@
         font-weight: 600;
         letter-spacing: 0.3px;
         text-decoration: none;
-        transition: background-color 0.2s, transform 0.15s;
+        transition:
+          background-color 0.15s,
+          transform 0.12s,
+          width 0.25s ease;
       }
       .join-channel-capsule:hover {
         background-color: #273747;
@@ -935,6 +1079,120 @@
         height: 19px;
         fill: #64b5ef;
       }
+
+      .scroll-down-pill-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: #212f3d;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        overflow: hidden;
+        opacity: 1;
+        transition:
+          width 0.24s ease,
+          opacity 0.2s ease,
+          transform 0.2s ease,
+          background-color 0.15s;
+      }
+      .scroll-down-pill-btn.hidden {
+        width: 0;
+        opacity: 0;
+        transform: scale(0.6);
+        pointer-events: none;
+      }
+      .scroll-down-pill-btn:hover {
+        background-color: #273747;
+      }
+      .scroll-down-pill-btn:active {
+        transform: scale(0.94);
+      }
+      .scroll-down-pill-btn svg {
+        width: 21px;
+        height: 21px;
+        stroke: #e8eff6;
+        fill: none;
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+      }
+      .scroll-down-pill-btn:hover svg {
+        stroke: #64b5ef;
+      }
+
+      /* CHIQISH (←) TUGMASI BOSILGANDA OCHILADIGAN OYNA */
+      .exit-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(6, 10, 16, 0.72);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 100;
+      }
+      .exit-modal-backdrop.open {
+        display: flex;
+      }
+      .exit-modal-card {
+        width: 100%;
+        max-width: 330px;
+        background-color: #17212b;
+        border: 1px solid rgba(100, 181, 239, 0.22);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        color: #fff;
+      }
+      .exit-modal-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #f4f7fa;
+      }
+      .exit-modal-desc {
+        font-size: 13px;
+        color: #8ea1b4;
+        line-height: 1.45;
+      }
+      .exit-modal-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .exit-primary-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 11px;
+        background-color: #64b5ef;
+        color: #0e1621;
+        font-size: 13.5px;
+        font-weight: 700;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+      }
+      .exit-secondary-btn {
+        padding: 10px 14px;
+        border-radius: 11px;
+        background-color: #212f3d;
+        color: #d6e2ee;
+        font-size: 13.5px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -944,20 +1202,31 @@
       <!-- HEADER -->
       <div class="tg-header">
         <div class="top-bar" id="top-bar">
-          <a href="https://t.me/BENBY" target="_blank" class="back-pill-btn" title="Telegram kanalga o'tish">
+          <button
+            type="button"
+            class="back-pill-btn"
+            title="Chiqish"
+            aria-label="Chiqish"
+            onclick="handleExitButton(event)"
+          >
             <svg viewBox="0 0 24 24">
               <path
                 d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z"
               />
             </svg>
-          </a>
-          <a href="https://t.me/BENBY" target="_blank" class="middle-capsule">
+          </button>
+          <button
+            type="button"
+            class="middle-capsule"
+            title="1-postga o'tish"
+            onclick="scrollToFirstPost(event)"
+          >
             <div class="avatar-main">BENBY</div>
             <div class="info">
               <div class="title">BENBY <span>🎵</span></div>
               <div id="status-text" class="status">Yuklanmoqda...</div>
             </div>
-          </a>
+          </button>
           <div class="right-capsule">
             <button
               type="button"
@@ -1048,6 +1317,36 @@
           </button>
         </div>
 
+        <!-- TELEGRAM USLUBIDAGI IXCHAM MINI-PLEYER BOSHQARUV PANELI -->
+        <div class="top-mini-player" id="top-mini-player">
+          <button
+            type="button"
+            class="mini-play-btn"
+            id="mini-play-btn"
+            title="Play / Pause"
+            aria-label="Play / Pause"
+            onclick="toggleMiniPlayerPlay(event)"
+          >
+            <svg viewBox="0 0 24 24"><path d="M8 5V19L19 12L8 5Z"/></svg>
+          </button>
+          <div class="mini-track-info" onclick="scrollToActiveTrack(event)">
+            <div class="mini-track-title" id="mini-track-title">Musiqa nomi</div>
+          </div>
+          <button
+            type="button"
+            class="mini-close-btn"
+            title="To'xtatish va yopish"
+            aria-label="To'xtatish va yopish"
+            onclick="closeTopMiniPlayer(event)"
+          >
+            <svg viewBox="0 0 14 14">
+              <path
+                d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+              />
+            </svg>
+          </button>
+        </div>
+
         <!-- BAHOLASH QISMI (QADALGAN XABAR) -->
         <div class="pinned" id="pinned-bar" onclick="openRatingMode(event)">
           <div class="pinned-line"></div>
@@ -1074,14 +1373,54 @@
 
       <div class="chat-area" id="chat-area"></div>
 
-      <!-- HEADERDAGI KABI KAPSULA FOOTER -->
-      <div class="subscriber-bar">
+      <!-- HEADERDAGI KABI KAPSULA FOOTER + PASTGA TEZ TUSHISH TUGMASI -->
+      <div class="subscriber-bar at-bottom" id="subscriber-bar">
         <a href="https://t.me/BENBY" target="_blank" class="join-channel-capsule">
           <svg viewBox="0 0 24 24">
             <path d="M9.78 18.65L10.06 14.42L17.74 7.5C18.08 7.19 17.67 7.04 17.22 7.31L7.74 13.28L3.64 12C2.76 11.74 2.75 11.14 3.84 10.73L19.81 4.58C20.54 4.32 21.2 4.72 20.96 5.84L18.24 18.65C18.05 19.56 17.5 19.78 16.74 19.36L12.6 16.3L10.61 18.23C10.38 18.46 10.19 18.65 9.78 18.65Z"/>
           </svg>
           <span>Kanalga qo'shilish</span>
         </a>
+        <button
+          type="button"
+          class="scroll-down-pill-btn hidden"
+          id="scroll-down-btn"
+          title="Pastga tez tushish"
+          aria-label="Pastga tez tushish"
+          onclick="scrollToBottomFast(event)"
+        >
+          <svg viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <polyline points="6 13 12 19 18 13"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- CHIQISH (←) TUGMASI BOSILGANDA OCHILADIGAN OYNA -->
+    <div class="exit-modal-backdrop" id="exit-modal" onclick="closeExitModal()">
+      <div class="exit-modal-card" onclick="event.stopPropagation()">
+        <div class="exit-modal-title">BENBY sahifasidan chiqish</div>
+        <div class="exit-modal-desc">
+          Asosiy Telegram kanalga o'tasizmi yoki pleerda qolasizmi?
+        </div>
+        <div class="exit-modal-actions">
+          <a
+            href="https://t.me/BENBY"
+            target="_blank"
+            class="exit-primary-btn"
+            onclick="closeExitModal()"
+          >
+            Telegram kanal (@BENBY) ga o'tish
+          </a>
+          <button
+            type="button"
+            class="exit-secondary-btn"
+            onclick="closeExitModal()"
+          >
+            Saytda qolish
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1185,6 +1524,12 @@
       const chatArea = document.getElementById("chat-area");
       const audioPlayer = document.getElementById("main-audio");
       const statusText = document.getElementById("status-text");
+      const subscriberBar = document.getElementById("subscriber-bar");
+      const scrollDownBtn = document.getElementById("scroll-down-btn");
+      const topMiniPlayer = document.getElementById("top-mini-player");
+      const miniPlayBtn = document.getElementById("mini-play-btn");
+      const miniTrackTitle = document.getElementById("mini-track-title");
+      const exitModal = document.getElementById("exit-modal");
 
       let playlist = [];
       let searchQuery = "";
@@ -1193,6 +1538,10 @@
       let isAudioLoading = false;
       let loadTimeout;
 
+      let activeProgressEl = null;
+      let activeCurrentTimeEl = null;
+      let activeTotalTimeEl = null;
+
       let pinnedState = "prompt";
       let savedRating = Number(localStorage.getItem("benby_site_rating") || 0);
       let hasVotedOnce = Boolean(localStorage.getItem("benby_site_voted"));
@@ -1200,15 +1549,148 @@
       const starSvg =
         '<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 
+      function resetTrackProgressUI(index) {
+        if (index < 0) return;
+        const curEl = document.getElementById(`current-time-${index}`);
+        const progEl = document.getElementById(`progress-${index}`);
+        if (curEl) curEl.innerText = "00:00";
+        if (progEl) progEl.value = 0;
+      }
+
+      window.handleExitButton = function (event) {
+        if (event) event.stopPropagation();
+        closeAllMenus();
+        closeHeaderMenu();
+        if (exitModal) exitModal.classList.add("open");
+      };
+
+      window.closeExitModal = function (event) {
+        if (event) event.stopPropagation();
+        if (exitModal) exitModal.classList.remove("open");
+      };
+
+      function cacheActiveTrackElements(index) {
+        if (index < 0) {
+          activeProgressEl = null;
+          activeCurrentTimeEl = null;
+          activeTotalTimeEl = null;
+          return;
+        }
+        activeProgressEl = document.getElementById(`progress-${index}`);
+        activeCurrentTimeEl = document.getElementById(`current-time-${index}`);
+        activeTotalTimeEl = document.getElementById(`total-time-${index}`);
+      }
+
+      function updateScrollDownButtonVisibility() {
+        if (!chatArea || !scrollDownBtn || !subscriberBar) return;
+        const distanceFromBottom =
+          chatArea.scrollHeight - chatArea.scrollTop - chatArea.clientHeight;
+        const isAtBottom = distanceFromBottom <= 28;
+        scrollDownBtn.classList.toggle("hidden", isAtBottom);
+        subscriberBar.classList.toggle("at-bottom", isAtBottom);
+      }
+
+      chatArea.addEventListener("scroll", updateScrollDownButtonVisibility, {
+        passive: true,
+      });
+
+      window.scrollToFirstPost = function (event) {
+        if (event) event.stopPropagation();
+        const firstRow = chatArea.querySelector(".msg-row");
+        if (firstRow) {
+          firstRow.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          chatArea.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      };
+
+      window.scrollToBottomFast = function (event) {
+        if (event) event.stopPropagation();
+        chatArea.scrollTo({
+          top: chatArea.scrollHeight,
+          behavior: "smooth",
+        });
+      };
+
+      function updateTopMiniPlayer() {
+        if (!topMiniPlayer) return;
+        if (currentIndex === -1 || !localPlaylist[currentIndex]) {
+          topMiniPlayer.classList.remove("visible");
+          return;
+        }
+        const track = localPlaylist[currentIndex];
+        topMiniPlayer.classList.add("visible");
+        if (miniTrackTitle) miniTrackTitle.innerText = track.title;
+        if (miniPlayBtn) {
+          miniPlayBtn.innerHTML =
+            !audioPlayer.paused && !isAudioLoading ? pauseIcon : playIcon;
+        }
+      }
+
+      window.toggleMiniPlayerPlay = function (event) {
+        if (event) event.stopPropagation();
+        if (currentIndex === -1) return;
+        togglePlay(currentIndex);
+      };
+
+      window.scrollToActiveTrack = function (event) {
+        if (event) event.stopPropagation();
+        if (currentIndex === -1) return;
+        const activeBubble = document.getElementById(`bubble-${currentIndex}`);
+        if (activeBubble) {
+          activeBubble.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      };
+
+      window.closeTopMiniPlayer = function (event) {
+        if (event) event.stopPropagation();
+        const stoppedIdx = currentIndex;
+        isAudioLoading = false;
+        clearTimeout(loadTimeout);
+        audioPlayer.pause();
+        try {
+          audioPlayer.currentTime = 0;
+        } catch (_) {}
+
+        if (stoppedIdx !== -1) {
+          resetTrackProgressUI(stoppedIdx);
+          const bubbleEl = document.getElementById(`bubble-${stoppedIdx}`);
+          if (bubbleEl) bubbleEl.classList.remove("expanded");
+        }
+
+        currentIndex = -1;
+        cacheActiveTrackElements(-1);
+        updatePlayIcons();
+        syncPanelButtons();
+        updateTopMiniPlayer();
+      };
+
       function refreshBackdropBlurState() {
-        const hasOpenPostMenu = Boolean(document.querySelector(".post-menu.open"));
-        const hasOpenHeaderMenu = Boolean(
-          document.getElementById("header-menu")?.classList.contains("open"),
-        );
+        const openPostMenu = document.querySelector(".post-menu.open");
+        const headerMenu = document.getElementById("header-menu");
+        const isHeaderMenuOpen = Boolean(headerMenu?.classList.contains("open"));
+        const headerMoreBtn = document.getElementById("header-more-btn");
+
+        document
+          .querySelectorAll(".more-btn.menu-active-trigger")
+          .forEach((btn) => btn.classList.remove("menu-active-trigger"));
+        if (headerMoreBtn) {
+          headerMoreBtn.classList.toggle("menu-active-trigger", isHeaderMenuOpen);
+        }
+
+        if (openPostMenu) {
+          const menuId = openPostMenu.id || "";
+          const idx = menuId.replace("menu-", "");
+          const triggerBtn = document.querySelector(
+            `.more-btn[data-menu-index="${idx}"]`,
+          );
+          if (triggerBtn) triggerBtn.classList.add("menu-active-trigger");
+        }
+
         if (appContainer) {
           appContainer.classList.toggle(
             "menu-open-blur",
-            hasOpenPostMenu || hasOpenHeaderMenu,
+            Boolean(openPostMenu) || isHeaderMenuOpen,
           );
         }
       }
@@ -1233,7 +1715,7 @@
         if (clearBtn) clearBtn.classList.remove("visible");
         document.getElementById("search-bar").classList.remove("active");
         document.getElementById("top-bar").style.display = "flex";
-        renderPlaylist();
+        renderPlaylist(true);
       };
 
       window.handleSearchInput = function (event) {
@@ -1242,7 +1724,7 @@
         if (clearBtn) {
           clearBtn.classList.toggle("visible", searchQuery.length > 0);
         }
-        renderPlaylist();
+        renderPlaylist(false);
       };
 
       window.clearSearchInput = function (event) {
@@ -1255,7 +1737,7 @@
           input.focus();
         }
         if (clearBtn) clearBtn.classList.remove("visible");
-        renderPlaylist();
+        renderPlaylist(true);
       };
 
       window.toggleHeaderMenu = function (event) {
@@ -1290,10 +1772,15 @@
           .querySelectorAll(".bubble")
           .forEach((b) => b.classList.remove("expanded"));
         audioPlayer.pause();
+        try {
+          audioPlayer.currentTime = 0;
+        } catch (_) {}
+        if (currentIndex !== -1) resetTrackProgressUI(currentIndex);
         isAudioLoading = false;
         clearTimeout(loadTimeout);
         updatePlayIcons();
         syncPanelButtons();
+        updateTopMiniPlayer();
       };
 
       window.copySiteLink = function (event) {
@@ -1567,20 +2054,19 @@
         const isSameTrack =
           currentIndex === index && audioPlayer.getAttribute("src") === encodedSrc;
 
-        const curEl = document.getElementById(`current-time-${index}`);
-        const progEl = document.getElementById(`progress-${index}`);
-        if (curEl) curEl.innerText = "00:00";
-        if (progEl) progEl.value = 0;
+        resetTrackProgressUI(index);
 
         if (isSameTrack) {
           audioPlayer.currentTime = 0;
         } else {
           currentIndex = index;
+          cacheActiveTrackElements(index);
           audioPlayer.pause();
           audioPlayer.setAttribute("src", encodedSrc);
           audioPlayer.load();
           audioPlayer.currentTime = 0;
         }
+        updateTopMiniPlayer();
       };
 
       window.stopTrackCompletely = function (index, event) {
@@ -1595,12 +2081,9 @@
           } catch (_) {}
         }
 
-        const curEl = document.getElementById(`current-time-${index}`);
-        const progEl = document.getElementById(`progress-${index}`);
-        if (curEl) curEl.innerText = "00:00";
-        if (progEl) progEl.value = 0;
-
+        resetTrackProgressUI(index);
         updatePlayIcons();
+        updateTopMiniPlayer();
       };
 
       window.seekBySeconds = function (index, deltaSeconds, event) {
@@ -1611,7 +2094,8 @@
         document
           .querySelectorAll(".bubble")
           .forEach((b) => b.classList.remove("expanded"));
-        document.getElementById(`bubble-${index}`).classList.add("expanded");
+        const bEl = document.getElementById(`bubble-${index}`);
+        if (bEl) bEl.classList.add("expanded");
         syncPanelButtons();
 
         const encodedSrc = encodeURI(track.src);
@@ -1630,23 +2114,24 @@
               : (audioPlayer.currentTime || 0) + deltaSeconds,
           );
           audioPlayer.currentTime = nextTime;
-          const progressEl = document.getElementById(`progress-${index}`);
-          const currentEl = document.getElementById(`current-time-${index}`);
-          if (currentEl) currentEl.innerText = formatTime(nextTime);
-          if (progressEl && duration > 0) {
-            progressEl.value = (nextTime / duration) * 100;
+          if (activeCurrentTimeEl) activeCurrentTimeEl.innerText = formatTime(nextTime);
+          if (activeProgressEl && duration > 0) {
+            activeProgressEl.value = (nextTime / duration) * 100;
           }
           audioPlayer.play().catch(() => {});
           updatePlayIcons();
+          updateTopMiniPlayer();
         };
 
         if (!isSameTrack) {
           currentIndex = index;
+          cacheActiveTrackElements(index);
           isAudioLoading = true;
           audioPlayer.pause();
           audioPlayer.setAttribute("src", encodedSrc);
           audioPlayer.load();
           updatePlayIcons();
+          updateTopMiniPlayer();
 
           const onReady = () => {
             audioPlayer.removeEventListener("loadedmetadata", onReady);
@@ -1657,6 +2142,7 @@
           audioPlayer.addEventListener("canplay", onReady);
         } else {
           currentIndex = index;
+          cacheActiveTrackElements(index);
           applySeek();
         }
       };
@@ -1682,7 +2168,7 @@
         });
       }
 
-      function renderPlaylist() {
+      function renderPlaylist(scrollToBottom = true) {
         chatArea.innerHTML = "";
         playlist = localPlaylist.map((data, originalIndex) => ({
           ...data,
@@ -1719,6 +2205,7 @@
 
         if (!localPlaylist.length) {
           statusText.innerText = "Musiqalar yo'q";
+          updateScrollDownButtonVisibility();
           return;
         }
         statusText.innerText = searchQuery
@@ -1730,6 +2217,7 @@
           emptyDiv.className = "empty-search-state";
           emptyDiv.innerText = `"${searchQuery}" bo'yicha musiqa topilmadi`;
           chatArea.appendChild(emptyDiv);
+          updateScrollDownButtonVisibility();
           return;
         }
 
@@ -1748,6 +2236,7 @@
 
           const msgRow = document.createElement("div");
           msgRow.className = "msg-row";
+          msgRow.id = `row-${index}`;
           msgRow.innerHTML = `
             <div class="bubble ${isExpandedClass}" id="bubble-${index}">
               <div class="audio-box" onclick="togglePlay(${index})">
@@ -1760,6 +2249,7 @@
                 <button
                   type="button"
                   class="more-btn"
+                  data-menu-index="${index}"
                   title="Yuklab olish"
                   aria-label="Yuklab olish"
                   onclick="togglePostMenu(${index}, event)"
@@ -1844,8 +2334,9 @@
             if (currentIndex === index && audioPlayer.duration) {
               isSeeking = true;
               const seekTime = (e.target.value / 100) * audioPlayer.duration;
-              document.getElementById(`current-time-${index}`).innerText =
-                formatTime(seekTime);
+              if (activeCurrentTimeEl) {
+                activeCurrentTimeEl.innerText = formatTime(seekTime);
+              }
             }
           });
           progressBar.addEventListener("change", (e) => {
@@ -1857,14 +2348,19 @@
           });
         });
 
+        cacheActiveTrackElements(currentIndex);
         updatePlayIcons();
         syncPanelButtons();
         refreshBackdropBlurState();
 
-        if (!searchQuery) {
-          setTimeout(() => {
+        if (scrollToBottom && !searchQuery) {
+          chatArea.scrollTop = chatArea.scrollHeight;
+          requestAnimationFrame(() => {
             chatArea.scrollTop = chatArea.scrollHeight;
-          }, 200);
+            updateScrollDownButtonVisibility();
+          });
+        } else {
+          updateScrollDownButtonVisibility();
         }
       }
 
@@ -1884,6 +2380,7 @@
           currentIndex === index && audioPlayer.getAttribute("src") === encodedSrc;
 
         currentIndex = index;
+        cacheActiveTrackElements(index);
 
         if (isSameTrack) {
           audioPlayer.play().catch(() => {});
@@ -1895,6 +2392,7 @@
           audioPlayer.play().catch(() => {});
         }
         updatePlayIcons();
+        updateTopMiniPlayer();
       }
 
       window.handlePanelToggle = function (index, event) {
@@ -1908,9 +2406,14 @@
           bubble.classList.remove("expanded");
           if (currentIndex === index) {
             audioPlayer.pause();
+            try {
+              audioPlayer.currentTime = 0;
+            } catch (_) {}
+            resetTrackProgressUI(index);
             isAudioLoading = false;
             clearTimeout(loadTimeout);
             updatePlayIcons();
+            updateTopMiniPlayer();
           }
           syncPanelButtons();
         } else {
@@ -1924,13 +2427,19 @@
         if (currentIndex === index) {
           const bubble = document.getElementById(`bubble-${index}`);
           if (bubble) bubble.classList.add("expanded");
+          cacheActiveTrackElements(index);
           syncPanelButtons();
           if (audioPlayer.paused) {
             audioPlayer.play().catch(() => {});
           } else {
             audioPlayer.pause();
+            try {
+              audioPlayer.currentTime = 0;
+            } catch (_) {}
+            resetTrackProgressUI(index);
           }
           updatePlayIcons();
+          updateTopMiniPlayer();
         } else {
           startTrack(index);
         }
@@ -1987,17 +2496,20 @@
         isAudioLoading = false;
         clearTimeout(loadTimeout);
         updatePlayIcons();
+        updateTopMiniPlayer();
       });
 
       audioPlayer.addEventListener("waiting", () => {
         isAudioLoading = true;
         updatePlayIcons();
+        updateTopMiniPlayer();
 
         clearTimeout(loadTimeout);
         loadTimeout = setTimeout(() => {
           if (isAudioLoading) {
             isAudioLoading = false;
             updatePlayIcons();
+            updateTopMiniPlayer();
           }
         }, 15000);
       });
@@ -2006,41 +2518,68 @@
         isAudioLoading = false;
         clearTimeout(loadTimeout);
         updatePlayIcons();
+        updateTopMiniPlayer();
       });
       audioPlayer.addEventListener("canplay", () => {
         isAudioLoading = false;
         clearTimeout(loadTimeout);
         updatePlayIcons();
+        updateTopMiniPlayer();
       });
       audioPlayer.addEventListener("pause", () => {
         isAudioLoading = false;
         clearTimeout(loadTimeout);
+        try {
+          audioPlayer.currentTime = 0;
+        } catch (_) {}
+        if (currentIndex !== -1) {
+          resetTrackProgressUI(currentIndex);
+        }
         updatePlayIcons();
+        updateTopMiniPlayer();
       });
       audioPlayer.addEventListener("ended", playNext);
 
       audioPlayer.addEventListener("timeupdate", () => {
-        if (currentIndex !== -1 && !isSeeking && !isNaN(audioPlayer.duration)) {
-          const progress =
-            (audioPlayer.currentTime / audioPlayer.duration) * 100;
-          const progEl = document.getElementById(`progress-${currentIndex}`);
-          const curEl = document.getElementById(`current-time-${currentIndex}`);
-          const totEl = document.getElementById(`total-time-${currentIndex}`);
-          if (progEl) progEl.value = progress || 0;
-          if (curEl) curEl.innerText = formatTime(audioPlayer.currentTime);
-          if (totEl) totEl.innerText = formatTime(audioPlayer.duration);
+        if (
+          currentIndex !== -1 &&
+          !isSeeking &&
+          !audioPlayer.paused &&
+          !isNaN(audioPlayer.duration) &&
+          isFinite(audioPlayer.duration) &&
+          audioPlayer.duration > 0
+        ) {
+          const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+          if (activeProgressEl) activeProgressEl.value = progress;
+          if (activeCurrentTimeEl) {
+            activeCurrentTimeEl.innerText = formatTime(audioPlayer.currentTime);
+          }
+          if (activeTotalTimeEl) {
+            activeTotalTimeEl.innerText = formatTime(audioPlayer.duration);
+          }
         }
       });
 
       audioPlayer.addEventListener("loadedmetadata", () => {
-        if (currentIndex !== -1 && !isNaN(audioPlayer.duration)) {
-          const totEl = document.getElementById(`total-time-${currentIndex}`);
-          if (totEl) totEl.innerText = formatTime(audioPlayer.duration);
+        if (
+          currentIndex !== -1 &&
+          !isNaN(audioPlayer.duration) &&
+          isFinite(audioPlayer.duration) &&
+          activeTotalTimeEl
+        ) {
+          activeTotalTimeEl.innerText = formatTime(audioPlayer.duration);
+        }
+      });
+
+      window.addEventListener("load", () => {
+        if (!searchQuery) {
+          chatArea.scrollTop = chatArea.scrollHeight;
+          updateScrollDownButtonVisibility();
         }
       });
 
       renderPinnedBar();
-      renderPlaylist();
+      renderPlaylist(true);
     </script>
   </body>
 </html>
