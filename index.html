@@ -573,6 +573,32 @@
         transition: border-color 0.18s ease, background-color 0.18s ease, filter 0.18s ease;
       }
 
+      .top-chart-banner {
+        align-self: center;
+        background-color: rgba(100, 181, 239, 0.12);
+        border: 1px solid rgba(100, 181, 239, 0.28);
+        color: #64b5ef;
+        font-size: 12.5px;
+        font-weight: 700;
+        padding: 5px 14px;
+        border-radius: 14px;
+        letter-spacing: 0.3px;
+      }
+
+      .rank-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(100, 181, 239, 0.16);
+        color: #64b5ef;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 999px;
+        margin-right: 6px;
+        flex-shrink: 0;
+      }
+
       /* 3 NUQTA MENYUSI OCHILGANDA BLUR ORQASIDAGI BARCHA ELEMENTLAR HAM XIRALASHADI HAM BOSILMAYDI */
       .app-container.menu-open-blur .back-pill-btn,
       .app-container.menu-open-blur .middle-capsule,
@@ -582,6 +608,7 @@
       .app-container.menu-open-blur .pinned,
       .app-container.menu-open-blur .subscriber-bar,
       .app-container.menu-open-blur .date-badge,
+      .app-container.menu-open-blur .top-chart-banner,
       .app-container.menu-open-blur .empty-search-state,
       .app-container.menu-open-blur .play-circle,
       .app-container.menu-open-blur .track-info,
@@ -612,6 +639,7 @@
       .app-container.post-long-press-active .tg-header,
       .app-container.post-long-press-active .subscriber-bar,
       .app-container.post-long-press-active .date-badge,
+      .app-container.post-long-press-active .top-chart-banner,
       .app-container.post-long-press-active .empty-search-state,
       .app-container.post-long-press-active .post-zone:not(.long-pressed-zone) {
         filter: blur(3.2px);
@@ -823,6 +851,8 @@
         overflow: hidden;
         text-overflow: ellipsis;
         margin-bottom: 2px;
+        display: flex;
+        align-items: center;
       }
       .track-artist {
         font-size: 13.5px;
@@ -1500,93 +1530,103 @@
 
       const localPlaylist = [
         {
-          title: "ФОГЕЛЬ - ЧАСЫ",
-          artist: "BENBY",
-          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
-          fileName: "ФОГЕЛЬ-ЧАСЫ.mp3",
-          tgLink: "https://t.me/BENBY/653",
-          time: "09:06",
-          views: 450,
+          rank: 10,
+          title: "Adolar etma — Munisa Rizayeva",
+          artist: "BENBY • Chart #45",
+          src: "audio/AdolarEtma-MunisaR.m4a",
+          fileName: "AdolarEtma-MunisaR.m4a",
+          tgLink: "https://t.me/BENBY",
+          time: "15:13",
+          views: 410,
         },
         {
-          title: "ЮЛИЯ ГАВРИЛОВА - АЙ ВЫ ЦЫГАНЕ",
-          artist: "BENBY",
-          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
-          fileName: "ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
-          tgLink: "https://t.me/BENBY/659",
-          time: "18:12",
-          views: 406,
+          rank: 9,
+          title: "Ayriliq — Shoxrux",
+          artist: "BENBY • Chart #44",
+          src: "audio/Shoxrux-Ayriliq.mp3",
+          fileName: "Shoxrux-Ayriliq.mp3",
+          tgLink: "https://t.me/BENBY",
+          time: "15:12",
+          views: 435,
         },
         {
-          title: "BENBY MIX - TRACK 03",
-          artist: "BENBY",
-          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
-          fileName: "BENBY-TRACK-03.mp3",
-          tgLink: "https://t.me/BENBY/653",
-          time: "19:05",
-          views: 512,
+          rank: 8,
+          title: "Yig‘lar Osmon — Lola Yuldasheva & Shohruhxon",
+          artist: "BENBY • Chart #43",
+          src: "audio/YiglarOsmonShohruhhonLola.mp3",
+          fileName: "YiglarOsmonShohruhhonLola.mp3",
+          tgLink: "https://t.me/BENBY",
+          time: "15:11",
+          views: 468,
         },
         {
-          title: "BENBY NIGHT - TRACK 04",
-          artist: "BENBY",
-          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
-          fileName: "BENBY-TRACK-04.mp3",
-          tgLink: "https://t.me/BENBY/659",
-          time: "19:48",
-          views: 389,
+          rank: 7,
+          title: "Hato — Shoxrux",
+          artist: "BENBY • Chart #35",
+          src: "audio/Hato-Shoxrux.mp3",
+          fileName: "Hato-Shoxrux.mp3",
+          tgLink: "https://t.me/BENBY",
+          time: "15:09",
+          views: 502,
         },
         {
-          title: "BENBY DEEP - TRACK 05",
-          artist: "BENBY",
-          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
-          fileName: "BENBY-TRACK-05.mp3",
-          tgLink: "https://t.me/BENBY/653",
-          time: "20:15",
-          views: 624,
+          rank: 6,
+          title: "Kel Yashaylik (Akustik) — Tohir Sodiqov",
+          artist: "BENBY • Chart #32",
+          src: "audio/KelYashaylikTohirSodiqov.m4a",
+          fileName: "KelYashaylikTohirSodiqov.m4a",
+          tgLink: "https://t.me/BENBY",
+          time: "15:08",
+          views: 549,
         },
         {
-          title: "BENBY VIBE - TRACK 06",
-          artist: "BENBY",
-          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
-          fileName: "BENBY-TRACK-06.mp3",
-          tgLink: "https://t.me/BENBY/659",
-          time: "20:42",
-          views: 478,
+          rank: 5,
+          title: "O‘ylamading (feat. Konsta) — Munisa Rizayeva",
+          artist: "BENBY • Chart #21",
+          src: "audio/MunisaRKonsta-Oylamading.mp3",
+          fileName: "MunisaRKonsta-Oylamading.mp3",
+          tgLink: "https://t.me/BENBY",
+          time: "15:07",
+          views: 590,
         },
         {
-          title: "BENBY MOOD - TRACK 07",
-          artist: "BENBY",
-          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
-          fileName: "BENBY-TRACK-07.mp3",
-          tgLink: "https://t.me/BENBY/653",
-          time: "21:10",
-          views: 531,
+          rank: 4,
+          title: "Bolaligim — Shoxrux",
+          artist: "BENBY • Chart #20",
+          src: "audio/BolaligimShoxrux.mp3",
+          fileName: "BolaligimShoxrux.mp3",
+          tgLink: "https://t.me/BENBY",
+          time: "15:07",
+          views: 625,
         },
         {
-          title: "BENBY SOUL - TRACK 08",
-          artist: "BENBY",
-          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
-          fileName: "BENBY-TRACK-08.mp3",
-          tgLink: "https://t.me/BENBY/659",
-          time: "21:35",
-          views: 419,
+          rank: 3,
+          title: "Judayam sog‘indim — Manzura",
+          artist: "BENBY • Chart #8",
+          src: "audio/JudayamSogindimManzura.mp3",
+          fileName: "JudayamSogindimManzura.mp3",
+          tgLink: "https://t.me/BENBY",
+          time: "15:05",
+          views: 680,
         },
         {
-          title: "BENBY CLUB - TRACK 09",
-          artist: "BENBY",
-          src: "audio/ФОГЕЛЬ-ЧАСЫ.mp3",
-          fileName: "BENBY-TRACK-09.mp3",
-          tgLink: "https://t.me/BENBY/653",
-          time: "22:04",
-          views: 690,
+          rank: 2,
+          title: "Sog‘indim — Tohir Sodiqov",
+          artist: "BENBY • Chart #5",
+          src: "audio/Senisogindim-ToxirSodikov.mp3",
+          fileName: "Senisogindim-ToxirSodikov.mp3",
+          tgLink: "https://t.me/BENBY",
+          time: "15:02",
+          views: 715,
         },
         {
-          title: "BENBY FINALE - TRACK 10",
-          artist: "BENBY",
-          src: "audio/ЮЛИЯГАВРИЛОВА-АЙВЫЦЫГАНЕ.mp3",
-          fileName: "BENBY-TRACK-10.mp3",
-          tgLink: "https://t.me/BENBY/659",
-          time: "22:30",
+          rank: 1,
+          title: "Shaytanat (feat. Sherali Jo‘rayev) — Shohjahon Jo‘rayev",
+          artist: "BENBY • Chart #3",
+          src: "audio/Shaytanat.mp3",
+          fileName: "Shaytanat.mp3",
+          tgLink: "https://t.me/BENBY",
+          time: "08:57",
           views: 745,
         },
       ];
@@ -2369,6 +2409,11 @@
         dateDiv.innerText = `${bugun.getDate()} ${oylar[bugun.getMonth()]} ${bugun.getFullYear()}`;
         chatArea.appendChild(dateDiv);
 
+        const topChartBanner = document.createElement("div");
+        topChartBanner.className = "top-chart-banner";
+        topChartBanner.innerText = `🏆 OYNING TOP 10 MUSIQASI (1 ↓ PASTDA)`;
+        chatArea.appendChild(topChartBanner);
+
         if (!localPlaylist.length) {
           statusText.innerText = "Musiqalar yo'q";
           updateScrollDownButtonVisibility();
@@ -2376,7 +2421,7 @@
         }
         statusText.innerText = searchQuery
           ? `Topildi: ${filtered.length} ta`
-          : `${localPlaylist.length} ta musiqa`;
+          : `Oyning Top ${localPlaylist.length} musiqasi`;
 
         if (!filtered.length) {
           const emptyDiv = document.createElement("div");
@@ -2389,6 +2434,7 @@
 
         filtered.forEach((data) => {
           const index = data.originalIndex;
+          const rankNum = data.rank || localPlaylist.length - index;
           const timeString =
             data.time ||
             new Date().toLocaleTimeString("uz-UZ", {
@@ -2412,9 +2458,9 @@
                 <div class="audio-box" onclick="togglePlay(${index})">
                   <div class="play-circle" id="circle-${index}">${playIcon}</div>
                   <div class="track-info">
-                    <div class="track-name">${data.title}</div>
+                    <div class="track-name"><span class="rank-badge">#${rankNum}</span>${data.title}</div>
                     <div class="track-artist">${data.artist}</div>
-                    <div class="track-size">Audio fayl <span class="blue-dot">●</span></div>
+                    <div class="track-size">Top ${localPlaylist.length} • Audio fayl <span class="blue-dot">●</span></div>
                   </div>
                   <button
                     type="button"
