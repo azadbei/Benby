@@ -57,13 +57,13 @@
         }
       }
 
-      /* MENYUNI YOPISH UCHUN BLUR QOPLAMA (ORQADAGI TUGMALARNI TO'LIQ BLOKLAYDI) */
+      /* MENYUNI YOPISH UCHUN BLUR QOPLAMA (TELEFONDA HAM TUGMALARNI TO'LIQ BLOKLAYDI) */
       .blur-dismiss-overlay {
-        position: absolute;
+        position: fixed;
         inset: 0;
-        z-index: 85;
+        z-index: 200;
         display: none;
-        background: rgba(8, 13, 20, 0.18);
+        background: rgba(0, 0, 0, 0.01);
         cursor: default;
         touch-action: none;
       }
@@ -272,7 +272,7 @@
         box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
         padding: 5px;
         min-width: 215px;
-        z-index: 95;
+        z-index: 220;
         display: none;
         flex-direction: column;
         filter: none !important;
@@ -639,17 +639,17 @@
       .capsule-icon-btn.menu-active-trigger,
       .more-btn.menu-active-trigger {
         position: relative;
-        z-index: 95;
+        z-index: 220;
       }
 
       .header-menu {
         position: absolute;
-        z-index: 96;
+        z-index: 225;
       }
 
       .post-menu {
         position: absolute;
-        z-index: 96;
+        z-index: 225;
       }
 
       .date-badge {
@@ -879,7 +879,7 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
         padding: 4px;
         min-width: 170px;
-        z-index: 96;
+        z-index: 225;
         display: none;
         flex-direction: column;
         filter: none !important;
@@ -1198,7 +1198,7 @@
         align-items: center;
         justify-content: center;
         padding: 16px;
-        z-index: 100;
+        z-index: 250;
       }
       .exit-modal-backdrop.open {
         display: flex;
@@ -1266,6 +1266,7 @@
         id="blur-dismiss-overlay"
         onclick="consumeBlurOverlayClick(event)"
         onpointerdown="consumeBlurOverlayPointerDown(event)"
+        ontouchstart="consumeBlurOverlayTouch(event)"
       ></div>
       <audio id="main-audio" preload="metadata"></audio>
 
@@ -1368,7 +1369,7 @@
         </div>
 
         <!-- 3 NUQTA DROPDOWN MENYU -->
-        <div class="header-menu" id="header-menu" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()">
+        <div class="header-menu" id="header-menu" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
           <a href="https://t.me/BENBY" target="_blank" class="header-menu-item" onclick="closeHeaderMenu()">
             <svg viewBox="0 0 24 24"><path d="M9.78 18.65L10.06 14.42L17.74 7.5C18.08 7.19 17.67 7.04 17.22 7.31L7.74 13.28L3.64 12C2.76 11.74 2.75 11.14 3.84 10.73L19.81 4.58C20.54 4.32 21.2 4.72 20.96 5.84L18.24 18.65C18.05 19.56 17.5 19.78 16.74 19.36L12.6 16.3L10.61 18.23C10.38 18.46 10.19 18.65 9.78 18.65Z"/></svg>
             <span>Telegram kanal (@BENBY)</span>
@@ -1833,6 +1834,14 @@
           );
         }
       }
+
+      window.consumeBlurOverlayTouch = function (event) {
+        if (!event) return;
+        event.preventDefault();
+        event.stopPropagation();
+        closeAllMenus();
+        closeHeaderMenu();
+      };
 
       window.consumeBlurOverlayPointerDown = function (event) {
         if (!event) return;
@@ -2417,7 +2426,7 @@
                   >⋮</button>
                 </div>
 
-                <div class="post-menu" id="menu-${index}" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()">
+                <div class="post-menu" id="menu-${index}" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
                   <div class="menu-item" onclick="downloadTrack(${index}, event)">
                     ${downloadIcon}
                     <span>Yuklab olish (MP3)</span>
