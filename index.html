@@ -57,14 +57,15 @@
         }
       }
 
-      /* MENYUNI YOPISH UCHUN BLUR QOPLAMA (TUGMALARNI BLOKLAYDI, FAQAT MENYUNI YOPADI) */
+      /* MENYUNI YOPISH UCHUN BLUR QOPLAMA (ORQADAGI TUGMALARNI TO'LIQ BLOKLAYDI) */
       .blur-dismiss-overlay {
-        position: fixed;
+        position: absolute;
         inset: 0;
-        z-index: 75;
+        z-index: 85;
         display: none;
-        background: transparent;
+        background: rgba(8, 13, 20, 0.18);
         cursor: default;
+        touch-action: none;
       }
       .app-container.menu-open-blur .blur-dismiss-overlay {
         display: block;
@@ -260,7 +261,7 @@
         display: block;
       }
 
-      /* HEADER 3 NUQTA DROPDOWN MENYU (DOIM TINIQ) */
+      /* HEADER 3 NUQTA DROPDOWN MENYU (DOIM TINIQ VA BOSILADIGAN) */
       .header-menu {
         position: absolute;
         top: 56px;
@@ -275,6 +276,7 @@
         display: none;
         flex-direction: column;
         filter: none !important;
+        pointer-events: auto !important;
       }
       .header-menu.open {
         display: flex;
@@ -571,7 +573,7 @@
         transition: border-color 0.18s ease, background-color 0.18s ease, filter 0.18s ease;
       }
 
-      /* 3 NUQTA MENYUSI OCHILGANDA SAYT QISMLARIGA BLUR, LEKIN 3 NUQTA VA MENYU ORQASIDA BLUR ISHLAMAYDI */
+      /* 3 NUQTA MENYUSI OCHILGANDA BLUR ORQASIDAGI BARCHA ELEMENTLAR HAM XIRALASHADI HAM BOSILMAYDI */
       .app-container.menu-open-blur .back-pill-btn,
       .app-container.menu-open-blur .middle-capsule,
       .app-container.menu-open-blur #open-search-btn,
@@ -586,14 +588,18 @@
       .app-container.menu-open-blur .expanded-player,
       .app-container.menu-open-blur .bubble-footer,
       .app-container.menu-open-blur .post-tg-btn,
-      .app-container.menu-open-blur .side-actions-col {
-        filter: blur(2.6px);
+      .app-container.menu-open-blur .side-actions-col,
+      .app-container.menu-open-blur .audio-box {
+        filter: blur(2.8px);
+        pointer-events: none !important;
+        user-select: none;
         transition: filter 0.16s ease;
       }
 
       .app-container.menu-open-blur .capsule-icon-btn:not(.menu-active-trigger),
       .app-container.menu-open-blur .more-btn:not(.menu-active-trigger) {
-        filter: blur(2.6px);
+        filter: blur(2.8px);
+        pointer-events: none !important;
         transition: filter 0.16s ease;
       }
 
@@ -609,6 +615,7 @@
       .app-container.post-long-press-active .empty-search-state,
       .app-container.post-long-press-active .post-zone:not(.long-pressed-zone) {
         filter: blur(3.2px);
+        pointer-events: none !important;
         transition: filter 0.16s ease;
       }
 
@@ -626,21 +633,23 @@
       .header-menu,
       .post-menu {
         filter: none !important;
+        pointer-events: auto !important;
       }
 
       .capsule-icon-btn.menu-active-trigger,
       .more-btn.menu-active-trigger {
-        z-index: 90;
+        position: relative;
+        z-index: 95;
       }
 
       .header-menu {
         position: absolute;
-        z-index: 95;
+        z-index: 96;
       }
 
       .post-menu {
         position: absolute;
-        z-index: 95;
+        z-index: 96;
       }
 
       .date-badge {
@@ -870,10 +879,11 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
         padding: 4px;
         min-width: 170px;
-        z-index: 95;
+        z-index: 96;
         display: none;
         flex-direction: column;
         filter: none !important;
+        pointer-events: auto !important;
       }
       .post-menu.open {
         display: flex;
@@ -1629,6 +1639,7 @@
 
       window.startPostLongPress = function (index, event) {
         if (!event) return;
+        if (appContainer?.classList.contains("menu-open-blur")) return;
         if (
           event.target.closest(".more-btn") ||
           event.target.closest(".post-menu") ||
@@ -1835,6 +1846,8 @@
         if (!event) return;
         event.preventDefault();
         event.stopPropagation();
+        closeAllMenus();
+        closeHeaderMenu();
       };
 
       /* QIDIRUV VA HEADER 3 NUQTA MENYUSI */
